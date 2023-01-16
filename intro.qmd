@@ -12,7 +12,11 @@ A more thorough discussion on REDCap data can be found later as well as a chapte
 
 Before you are able to get any data out of REDCap, make sure that you are able to get in. After you are logged in, make sure, that you have permissions to get an API-key. The API-key is a alpha-numeric key used to verify yourself to the REDCap server, when requesting data export.
 
-The API key equals user name and password, and circumvents the two-factor verification process. Naturally, the API key should be kept in a safe way. To be clear: *DO NEVER STORE THE API-KEY AS PLAIN TEXT*.
+The API key equals user name and password, and circumvents the two-factor verification process. Naturally, the API key should be kept in a safe way.
+
+::: callout-warning
+To be clear: **NEVER STORE THE API-KEY AS PLAIN TEXT.**
+:::
 
 The `library(keyring)`[@R-keyring] offers a safe and easy way to store API keys and other secrets. Please copy and run the code below:
 
@@ -25,7 +29,7 @@ Do note, that the name "API_KEY" can be changed to whatever you prefer. Note tha
 
 ## Downloading data
 
-There are different packages to access and download data from R. In the [REDCap-tools repository](https://redcap-tools.github.io/projects/), available tools and packages are referenced. Here I will provide an example, as to download minimal data in a focused way, using REDCapR.[@R-REDCapR]. 
+There are different packages to access and download data from R. In the [REDCap-tools repository](https://redcap-tools.github.io/projects/), available tools and packages are referenced. Here I will provide an example, as to download minimal data in a focused way, using REDCapR.[@R-REDCapR].
 
 Please have a look in the [REDCap-chapter](#redcap-data) for an optimised approach when handling events and repeated instruments.
 
@@ -57,7 +61,6 @@ variable_names <- redcap_read(
   colnames()
 ```
 
-
 Here is an example on how to export data on RBANS and cleaning the data for plotting.
 
 ```{r readcapr-example, eval=FALSE}
@@ -79,4 +82,3 @@ head(ds, n = 5) # Showing only the first 5 rows
 ```
 
 Further examples and scripts can be found in the [ENIGMA code repository](https://github.com/agdamsbo/ENIGMAtrial_R).
-

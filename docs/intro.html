@@ -166,6 +166,9 @@ div.csl-indent {
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">REDCap R Handbook</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/agdamsbo/redcap-r-handbook/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
     </div>
       </div>
       <div class="mt-2 flex-shrink-0 align-items-center">
@@ -212,7 +215,7 @@ div.csl-indent {
   <li><a href="#getting-access" id="toc-getting-access" class="nav-link active" data-scroll-target="#getting-access"><span class="toc-section-number">1.1</span>  Getting access</a></li>
   <li><a href="#downloading-data" id="toc-downloading-data" class="nav-link" data-scroll-target="#downloading-data"><span class="toc-section-number">1.2</span>  Downloading data</a></li>
   </ul>
-</nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/agdamsbo/redcap-r-handbook/edit/main/intro.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -241,7 +244,20 @@ div.csl-indent {
 <section id="getting-access" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="getting-access"><span class="header-section-number">1.1</span> Getting access</h2>
 <p>Before you are able to get any data out of REDCap, make sure that you are able to get in. After you are logged in, make sure, that you have permissions to get an API-key. The API-key is a alpha-numeric key used to verify yourself to the REDCap server, when requesting data export.</p>
-<p>The API key equals user name and password, and circumvents the two-factor verification process. Naturally, the API key should be kept in a safe way. To be clear: <em>DO NEVER STORE THE API-KEY AS PLAIN TEXT</em>.</p>
+<p>The API key equals user name and password, and circumvents the two-factor verification process. Naturally, the API key should be kept in a safe way.</p>
+<div class="callout-warning callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To be clear: <strong>NEVER STORE THE API-KEY AS PLAIN TEXT.</strong></p>
+</div>
+</div>
 <p>The <code>library(keyring)</code><span class="citation" data-cites="R-keyring">(<a href="references.html#ref-R-keyring" role="doc-biblioref">Csárdi 2022</a>)</span> offers a safe and easy way to store API keys and other secrets. Please copy and run the code below:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(keyring)</span>
