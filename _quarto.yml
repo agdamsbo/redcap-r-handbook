@@ -1,0 +1,25 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "REDCap R Handbook"
+  author: "Andreas Gammelgaard Damsbo"
+  date: "1/16/2023"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - databases.qmd
+    - advanced.qmd
+    - references.qmd
+
+bibliography:
+  - references.bib
+  - packages.bib
+
+format:
+  html:
+    theme: flatly
+
+editor: visual
+

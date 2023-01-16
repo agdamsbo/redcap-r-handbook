@@ -1,0 +1,14 @@
+# Preface {.unnumbered}
+
+This is a handbook on working with REDCap in R.
+
+## Source
+
+This book is a Quarto book written in Quarto (RStudio).
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'knitr', 'rmarkdown', 'REDCapR', 'tidyverse', 'stRoke', "REDCapRITS","keyring", "REDCapTidieR"
+), 'packages.bib')
+```

@@ -1,0 +1,126 @@
+# Building a REDCap database {#redcap-data}
+
+I will try to provide examples for two cases:
+
+## Creating a database {#redcap-scratch}
+
+Lessons learned...
+
+## Setting up a database from a dataset {#redcap-dataset}
+
+Below will follow steps necessary to get a data base set up based on a data set provided.
+
+### Create a data dictionary
+
+Copy and run the following to create a DataDictionary draft.
+
+Change the `var_name` vector to the variable names of your own project and the same for `instrument`. Then export the DataDictionary draft and open the .ods file in a visual editor as LibreOffice.
+
+```{r redcap-dd-1}
+require(readODS)
+
+# Naming the different variables ("record_id" is the default name for the record number)
+var_name <- c("record_id","base_date","hypertension", "diabetes", "cohabitation","mrs_assessed","mrs_date","mrs_score") 
+# Instrument/form name corresponding to the variables
+instrument = c("base","base","base","base","base","mrs","mrs","mrs")
+
+# Combining the vectors with default data in data frame
+(dd_draft <- data.frame(Variable...Field.Name=var_name,
+           Form.Name=instrument,
+           Field.Type = "text",
+           Choices..Calculations..OR.Slider.Labels = "",
+           Field.Label = ""))
+
+# Exporting for manual manipulation
+write_ods(dd_draft,
+          path = "dd_draft.ods")
+```
+
+### Specify variable names etc.
+
+Have a look at the demonstration file below for inspiration.
+
+```{r redcap-dd-example}
+(dd_demo <- read.csv("./redcap/REDCapDataDictonaryDemo.csv")) |> head() |> gt::gt()
+```
+
+Open the exported file "dd_draft.ods".
+
+```{r redcap-open-dd, eval=FALSE}
+# Opens file with standard program
+system2("open", "dd_draft.ods")
+```
+
+Type or paste the needed information manually, save the file with a new name (I did "dd_draft_adds.ods") and load it again.
+
+```{r redcap-dd-adds}
+(dd <- read_ods("dd_draft_adds.ods", na = ""))
+```
+
+### Format choices
+
+Note the different *Field.Type's* used and *Choices..*. , called labels. Each label will have a raw value. And for each of these I will also ad an "Unknown" with a artificial value of 99. This is performed with a small script.
+
+For radio buttons, I have written the different options to choose from. For variables with a score to choose from, I have written the scores, and these variables and only these variables are named something with "\_score". Variables with binary or other types of outcome, I have written the label.
+
+```{r redcap-choices-bin}
+# I enjoy thoughtful variable naming
+var_bin <- dd$Field.Type=="radio" & !grepl("_score", dd$Variable...Field.Name)
+
+choices_bin <- unlist(lapply(strsplit(dd$Choices..Calculations..OR.Slider.Labels[var_bin], split = ", "),function(i){
+  paste(paste0(c(seq_len(length(i)),"99"), ","),c(i,"Unknown"),collapse = " | ")
+}))
+
+dd$Choices..Calculations..OR.Slider.Labels[var_bin] <- choices_bin
+```
+
+```{r redcap-choices-score}
+var_score <- dd$Field.Type=="radio" & grepl("_score", dd$Variable...Field.Name)
+
+choices_score <- unlist(lapply(strsplit(dd$Choices..Calculations..OR.Slider.Labels[var_score], split = ", "),function(i){
+  paste(paste0(i, ","),i,collapse = " | ")
+}))
+
+dd$Choices..Calculations..OR.Slider.Labels[var_score] <- choices_score
+```
+
+Have a look at the results for now.
+
+```{r}
+dd
+```
+
+### Merging and data validation
+
+Merging with all needed columns from the DataDictionary demo.
+
+```{r}
+demo_names <- colnames(dd_demo)
+
+col_miss <- demo_names[!demo_names %in% colnames(dd)]
+
+df_miss <- data.frame(matrix(nrow = nrow(dd), ncol=length(col_miss)))
+colnames(df_miss) <- col_miss
+
+dd_upload <- cbind(dd,df_miss)[demo_names]
+
+dd_upload$Text.Validation.Type.OR.Show.Slider.Number[grepl("_date",dd_upload$Variable...Field.Name)] <- "date_dmy"
+
+dd_upload |> gt::gt()
+```
+
+### Upload the DataDictionary
+
+The DataDictionary can be uploaded using the API or manually via the REDCap webpage. Here I'll show the first option:
+
+```{r redcap_dd-write, eval=FALSE}
+REDCapR::redcap_metadata_write(dd_upload,
+                               uri=,
+                               token=)
+```
+
+## Coming up
+
+-   Rewrite of chapter to a more generel use case
+-   Tips for branching and calculations
+-   more...
