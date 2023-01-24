@@ -2,22 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://agdamsbo.github.io/redcap-r-handbook/index.html</loc>
-    <lastmod>2023-01-24T09:29:56.049Z</lastmod>
+    <lastmod>2023-01-24T11:08:29.128Z</lastmod>
   </url>
   <url>
     <loc>https://agdamsbo.github.io/redcap-r-handbook/access.html</loc>
-    <lastmod>2023-01-24T09:29:56.049Z</lastmod>
+    <lastmod>2023-01-24T11:08:29.129Z</lastmod>
   </url>
   <url>
     <loc>https://agdamsbo.github.io/redcap-r-handbook/databases.html</loc>
-    <lastmod>2023-01-24T09:29:56.051Z</lastmod>
+    <lastmod>2023-01-24T11:08:29.130Z</lastmod>
   </url>
   <url>
     <loc>https://agdamsbo.github.io/redcap-r-handbook/advanced.html</loc>
-    <lastmod>2023-01-24T09:29:56.051Z</lastmod>
+    <lastmod>2023-01-24T11:08:29.130Z</lastmod>
   </url>
   <url>
     <loc>https://agdamsbo.github.io/redcap-r-handbook/references.html</loc>
-    <lastmod>2023-01-24T09:29:56.051Z</lastmod>
+    <lastmod>2023-01-24T11:08:29.131Z</lastmod>
+  </url>
+  <url>
+    <loc>https://agdamsbo.github.io/redcap-r-handbook/appendix.html</loc>
+    <lastmod>2023-01-24T11:08:29.131Z</lastmod>
   </url>
 </urlset>

@@ -16,6 +16,7 @@ book:
     - databases.qmd
     - advanced.qmd
     - references.qmd
+    - appendix.qmd
 
 bibliography: [references.bib, packages.bib]
 
