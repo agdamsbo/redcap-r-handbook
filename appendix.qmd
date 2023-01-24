@@ -1,0 +1,7 @@
+# Appendix {#sec-a .unnumbered}
+
+# Session info
+
+```{r}
+sessionInfo()
+```

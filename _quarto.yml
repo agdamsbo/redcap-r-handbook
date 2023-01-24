@@ -12,7 +12,7 @@ book:
   site-url: https://agdamsbo.github.io/redcap-r-handbook/
   chapters:
     - index.qmd
-    - intro.qmd
+    - access.qmd
     - databases.qmd
     - advanced.qmd
     - references.qmd

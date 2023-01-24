@@ -94,7 +94,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./advanced.html" rel="next">
-<link href="./intro.html" rel="prev">
+<link href="./access.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -166,7 +166,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Intro to REDCap data</span></a>
+  <a href="./access.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data access</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -202,7 +202,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#merging-and-data-validation" id="toc-merging-and-data-validation" class="nav-link" data-scroll-target="#merging-and-data-validation"><span class="toc-section-number">2.2.4</span>  Merging and data validation</a></li>
   <li><a href="#upload-the-datadictionary" id="toc-upload-the-datadictionary" class="nav-link" data-scroll-target="#upload-the-datadictionary"><span class="toc-section-number">2.2.5</span>  Upload the DataDictionary</a></li>
   </ul></li>
-  <li><a href="#coming-up" id="toc-coming-up" class="nav-link" data-scroll-target="#coming-up"><span class="toc-section-number">2.3</span>  Coming up</a></li>
+  <li><a href="#upload-data-to-the-project" id="toc-upload-data-to-the-project" class="nav-link" data-scroll-target="#upload-data-to-the-project"><span class="toc-section-number">2.3</span>  Upload data to the project</a></li>
+  <li><a href="#coming-up" id="toc-coming-up" class="nav-link" data-scroll-target="#coming-up"><span class="toc-section-number">2.4</span>  Coming up</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/agdamsbo/redcap-r-handbook/edit/main/databases.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
     </div>
@@ -244,54 +245,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>Loading required package: readODS</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Naming the different variables ("record_id" is the default name for the record number)</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>var_name <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"record_id"</span>,<span class="st">"base_date"</span>,<span class="st">"hypertension"</span>, <span class="st">"diabetes"</span>, <span class="st">"cohabitation"</span>,<span class="st">"mrs_assessed"</span>,<span class="st">"mrs_date"</span>,<span class="st">"mrs_score"</span>) </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>var_name <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"record_id"</span>,<span class="st">"base_date"</span>,<span class="st">"hypertension"</span>, <span class="st">"diabetes"</span>, <span class="st">"cohabitation"</span>,<span class="st">"mrs_assessed"</span>,<span class="st">"mrs_date"</span>,<span class="st">"mrs_score"</span>,<span class="st">"event_date"</span>,<span class="st">"event_type"</span>) </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Instrument/form name corresponding to the variables</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>instrument <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"base"</span>,<span class="st">"base"</span>,<span class="st">"base"</span>,<span class="st">"base"</span>,<span class="st">"base"</span>,<span class="st">"mrs"</span>,<span class="st">"mrs"</span>,<span class="st">"mrs"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>instrument <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"base"</span>,<span class="st">"base"</span>,<span class="st">"base"</span>,<span class="st">"base"</span>,<span class="st">"base"</span>,<span class="st">"mrs"</span>,<span class="st">"mrs"</span>,<span class="st">"mrs"</span>,<span class="st">"event"</span>,<span class="st">"event"</span>)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Combining the vectors with default data in data frame</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>(dd_draft <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Variable...Field.Name=</span>var_name,</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">Form.Name=</span>instrument,</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">Field.Type =</span> <span class="st">"text"</span>,</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">Choices..Calculations..OR.Slider.Labels =</span> <span class="st">""</span>,</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">Field.Label =</span> <span class="st">""</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  Variable...Field.Name Form.Name Field.Type
-1             record_id      base       text
-2             base_date      base       text
-3          hypertension      base       text
-4              diabetes      base       text
-5          cohabitation      base       text
-6          mrs_assessed       mrs       text
-7              mrs_date       mrs       text
-8             mrs_score       mrs       text
-  Choices..Calculations..OR.Slider.Labels Field.Label
-1                                                    
-2                                                    
-3                                                    
-4                                                    
-5                                                    
-6                                                    
-7                                                    
-8                                                    </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exporting for manual manipulation</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_ods</span>(dd_draft,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">path =</span> <span class="st">"dd_draft.ods"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="specify-variable-names-etc." class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="specify-variable-names-etc."><span class="header-section-number">2.2.2</span> Specify variable names etc.</h3>
-<p>Have a look at the demonstration file below for inspiration.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(dd_demo <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"./redcap/REDCapDataDictonaryDemo.csv"</span>)) <span class="sc">|&gt;</span> <span class="fu">head</span>() <span class="sc">|&gt;</span> gt<span class="sc">::</span><span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">Field.Label =</span> <span class="st">""</span>)) <span class="sc">|&gt;</span>  gt<span class="sc">::</span><span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div id="vaxdkawyke" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="rgdflsswdf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#vaxdkawyke) .gt_table {
+:where(#rgdflsswdf) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -316,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-left-color: #D3D3D3;
 }
 
-:where(#vaxdkawyke) .gt_heading {
+:where(#rgdflsswdf) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -328,12 +299,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#vaxdkawyke) .gt_caption {
+:where(#rgdflsswdf) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#vaxdkawyke) .gt_title {
+:where(#rgdflsswdf) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -345,7 +316,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-width: 0;
 }
 
-:where(#vaxdkawyke) .gt_subtitle {
+:where(#rgdflsswdf) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -357,13 +328,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-width: 0;
 }
 
-:where(#vaxdkawyke) .gt_bottom_border {
+:where(#rgdflsswdf) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#vaxdkawyke) .gt_col_headings {
+:where(#rgdflsswdf) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -378,7 +349,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#vaxdkawyke) .gt_col_heading {
+:where(#rgdflsswdf) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -398,7 +369,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#vaxdkawyke) .gt_column_spanner_outer {
+:where(#rgdflsswdf) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -410,15 +381,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 4px;
 }
 
-:where(#vaxdkawyke) .gt_column_spanner_outer:first-child {
+:where(#rgdflsswdf) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#vaxdkawyke) .gt_column_spanner_outer:last-child {
+:where(#rgdflsswdf) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#vaxdkawyke) .gt_column_spanner {
+:where(#rgdflsswdf) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -430,7 +401,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   width: 100%;
 }
 
-:where(#vaxdkawyke) .gt_group_heading {
+:where(#rgdflsswdf) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -456,7 +427,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   text-align: left;
 }
 
-:where(#vaxdkawyke) .gt_empty_group_heading {
+:where(#rgdflsswdf) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -471,15 +442,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: middle;
 }
 
-:where(#vaxdkawyke) .gt_from_md > :first-child {
+:where(#rgdflsswdf) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#vaxdkawyke) .gt_from_md > :last-child {
+:where(#rgdflsswdf) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#vaxdkawyke) .gt_row {
+:where(#rgdflsswdf) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -498,7 +469,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#vaxdkawyke) .gt_stub {
+:where(#rgdflsswdf) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -511,7 +482,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#vaxdkawyke) .gt_stub_row_group {
+:where(#rgdflsswdf) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -525,11 +496,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: top;
 }
 
-:where(#vaxdkawyke) .gt_row_group_first td {
+:where(#rgdflsswdf) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#vaxdkawyke) .gt_summary_row {
+:where(#rgdflsswdf) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -539,16 +510,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#vaxdkawyke) .gt_first_summary_row {
+:where(#rgdflsswdf) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#vaxdkawyke) .gt_first_summary_row.thick {
+:where(#rgdflsswdf) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#vaxdkawyke) .gt_last_summary_row {
+:where(#rgdflsswdf) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -558,7 +529,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#vaxdkawyke) .gt_grand_summary_row {
+:where(#rgdflsswdf) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -568,7 +539,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#vaxdkawyke) .gt_first_grand_summary_row {
+:where(#rgdflsswdf) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -578,11 +549,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-color: #D3D3D3;
 }
 
-:where(#vaxdkawyke) .gt_striped {
+:where(#rgdflsswdf) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#vaxdkawyke) .gt_table_body {
+:where(#rgdflsswdf) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -591,7 +562,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#vaxdkawyke) .gt_footnotes {
+:where(#rgdflsswdf) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -605,7 +576,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#vaxdkawyke) .gt_footnote {
+:where(#rgdflsswdf) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -614,7 +585,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#vaxdkawyke) .gt_sourcenotes {
+:where(#rgdflsswdf) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -628,7 +599,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#vaxdkawyke) .gt_sourcenote {
+:where(#rgdflsswdf) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -636,64 +607,555 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#vaxdkawyke) .gt_left {
+:where(#rgdflsswdf) .gt_left {
   text-align: left;
 }
 
-:where(#vaxdkawyke) .gt_center {
+:where(#rgdflsswdf) .gt_center {
   text-align: center;
 }
 
-:where(#vaxdkawyke) .gt_right {
+:where(#rgdflsswdf) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#vaxdkawyke) .gt_font_normal {
+:where(#rgdflsswdf) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#vaxdkawyke) .gt_font_bold {
+:where(#rgdflsswdf) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#vaxdkawyke) .gt_font_italic {
+:where(#rgdflsswdf) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#vaxdkawyke) .gt_super {
+:where(#rgdflsswdf) .gt_super {
   font-size: 65%;
 }
 
-:where(#vaxdkawyke) .gt_footnote_marks {
+:where(#rgdflsswdf) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#vaxdkawyke) .gt_asterisk {
+:where(#rgdflsswdf) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#vaxdkawyke) .gt_indent_1 {
+:where(#rgdflsswdf) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#vaxdkawyke) .gt_indent_2 {
+:where(#rgdflsswdf) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#vaxdkawyke) .gt_indent_3 {
+:where(#rgdflsswdf) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#vaxdkawyke) .gt_indent_4 {
+:where(#rgdflsswdf) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#vaxdkawyke) .gt_indent_5 {
+:where(#rgdflsswdf) .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Variable...Field.Name">Variable...Field.Name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Form.Name">Form.Name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Field.Type">Field.Type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Choices..Calculations..OR.Slider.Labels">Choices..Calculations..OR.Slider.Labels</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Field.Label">Field.Label</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">record_id</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Label" class="gt_row gt_right"></td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">base_date</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Label" class="gt_row gt_right"></td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">hypertension</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Label" class="gt_row gt_right"></td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">diabetes</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Label" class="gt_row gt_right"></td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">cohabitation</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Label" class="gt_row gt_right"></td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">mrs_assessed</td>
+<td headers="Form.Name" class="gt_row gt_left">mrs</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Label" class="gt_row gt_right"></td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">mrs_date</td>
+<td headers="Form.Name" class="gt_row gt_left">mrs</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Label" class="gt_row gt_right"></td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">mrs_score</td>
+<td headers="Form.Name" class="gt_row gt_left">mrs</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Label" class="gt_row gt_right"></td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">event_date</td>
+<td headers="Form.Name" class="gt_row gt_left">event</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Label" class="gt_row gt_right"></td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">event_type</td>
+<td headers="Form.Name" class="gt_row gt_left">event</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Label" class="gt_row gt_right"></td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exporting for manual manipulation</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_ods</span>(dd_draft,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">path =</span> <span class="st">"dd_draft.ods"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="specify-variable-names-etc." class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="specify-variable-names-etc."><span class="header-section-number">2.2.2</span> Specify variable names etc.</h3>
+<p>Have a look at the demonstration file below for inspiration.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(dd_demo <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"./redcap/REDCapDataDictonaryDemo.csv"</span>)) <span class="sc">|&gt;</span> <span class="fu">head</span>() <span class="sc">|&gt;</span> gt<span class="sc">::</span><span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div id="koexjggdkg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+:where(#koexjggdkg) .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+:where(#koexjggdkg) .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#koexjggdkg) .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+:where(#koexjggdkg) .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+:where(#koexjggdkg) .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+:where(#koexjggdkg) .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#koexjggdkg) .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#koexjggdkg) .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+:where(#koexjggdkg) .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+:where(#koexjggdkg) .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+:where(#koexjggdkg) .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+:where(#koexjggdkg) .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+:where(#koexjggdkg) .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+:where(#koexjggdkg) .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+:where(#koexjggdkg) .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+:where(#koexjggdkg) .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+:where(#koexjggdkg) .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+:where(#koexjggdkg) .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#koexjggdkg) .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+:where(#koexjggdkg) .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+:where(#koexjggdkg) .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#koexjggdkg) .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+:where(#koexjggdkg) .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+:where(#koexjggdkg) .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#koexjggdkg) .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#koexjggdkg) .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+:where(#koexjggdkg) .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+:where(#koexjggdkg) .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#koexjggdkg) .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#koexjggdkg) .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#koexjggdkg) .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#koexjggdkg) .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#koexjggdkg) .gt_left {
+  text-align: left;
+}
+
+:where(#koexjggdkg) .gt_center {
+  text-align: center;
+}
+
+:where(#koexjggdkg) .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(#koexjggdkg) .gt_font_normal {
+  font-weight: normal;
+}
+
+:where(#koexjggdkg) .gt_font_bold {
+  font-weight: bold;
+}
+
+:where(#koexjggdkg) .gt_font_italic {
+  font-style: italic;
+}
+
+:where(#koexjggdkg) .gt_super {
+  font-size: 65%;
+}
+
+:where(#koexjggdkg) .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+:where(#koexjggdkg) .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+:where(#koexjggdkg) .gt_indent_1 {
+  text-indent: 5px;
+}
+
+:where(#koexjggdkg) .gt_indent_2 {
+  text-indent: 10px;
+}
+
+:where(#koexjggdkg) .gt_indent_3 {
+  text-indent: 15px;
+}
+
+:where(#koexjggdkg) .gt_indent_4 {
+  text-indent: 20px;
+}
+
+:where(#koexjggdkg) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -825,106 +1287,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Open the exported file “dd_draft.ods”.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Opens file with standard program</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system2</span>(<span class="st">"open"</span>, <span class="st">"dd_draft.ods"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Opens file with standard program</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system2</span>(<span class="st">"open"</span>, <span class="st">"dd_draft.ods"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Type or paste the needed information manually, save the file with a new name (I did “dd_draft_adds.ods”) and load it again.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(dd <span class="ot">&lt;-</span> <span class="fu">read_ods</span>(<span class="st">"dd_draft_adds.ods"</span>, <span class="at">na =</span> <span class="st">""</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  Variable...Field.Name Form.Name Field.Type
-1             record_id      base       text
-2             base_date      base       text
-3          hypertension      base      radio
-4              diabetes      base      radio
-5          cohabitation      base      radio
-6          mrs_assessed       mrs      radio
-7              mrs_date       mrs       text
-8             mrs_score       mrs      radio
-  Choices..Calculations..OR.Slider.Labels     Field.Label
-1                                    &lt;NA&gt;              ID
-2                                    &lt;NA&gt;  Inclusion date
-3                                 Yes, No    Hypertension
-4                                 Yes, No        Diabetes
-5                                 Yes, No    Cohabitation
-6                                 Yes, No         Assesed
-7                                    &lt;NA&gt; Assessment date
-8                     0, 1, 2, 3, 4, 5, 6       mRS score</code></pre>
-</div>
-</div>
-</section>
-<section id="format-choices" class="level3" data-number="2.2.3">
-<h3 data-number="2.2.3" class="anchored" data-anchor-id="format-choices"><span class="header-section-number">2.2.3</span> Format choices</h3>
-<p>Note the different <em>Field.Type’s</em> used and <em>Choices..</em>. , called labels. Each label will have a raw value. And for each of these I will also ad an “Unknown” with a artificial value of 99. This is performed with a small script.</p>
-<p>For radio buttons, I have written the different options to choose from. For variables with a score to choose from, I have written the scores, and these variables and only these variables are named something with “_score”. Variables with binary or other types of outcome, I have written the label.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># I enjoy thoughtful variable naming</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>var_bin <span class="ot">&lt;-</span> dd<span class="sc">$</span>Field.Type<span class="sc">==</span><span class="st">"radio"</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"_score"</span>, dd<span class="sc">$</span>Variable...Field.Name)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>choices_bin <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">strsplit</span>(dd<span class="sc">$</span>Choices..Calculations..OR.Slider.Labels[var_bin], <span class="at">split =</span> <span class="st">", "</span>),<span class="cf">function</span>(i){</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(<span class="fu">paste0</span>(<span class="fu">c</span>(<span class="fu">seq_len</span>(<span class="fu">length</span>(i)),<span class="st">"99"</span>), <span class="st">","</span>),<span class="fu">c</span>(i,<span class="st">"Unknown"</span>),<span class="at">collapse =</span> <span class="st">" | "</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>}))</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>Choices..Calculations..OR.Slider.Labels[var_bin] <span class="ot">&lt;-</span> choices_bin</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>var_score <span class="ot">&lt;-</span> dd<span class="sc">$</span>Field.Type<span class="sc">==</span><span class="st">"radio"</span> <span class="sc">&amp;</span> <span class="fu">grepl</span>(<span class="st">"_score"</span>, dd<span class="sc">$</span>Variable...Field.Name)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>choices_score <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">strsplit</span>(dd<span class="sc">$</span>Choices..Calculations..OR.Slider.Labels[var_score], <span class="at">split =</span> <span class="st">", "</span>),<span class="cf">function</span>(i){</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(<span class="fu">paste0</span>(i, <span class="st">","</span>),i,<span class="at">collapse =</span> <span class="st">" | "</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>}))</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>Choices..Calculations..OR.Slider.Labels[var_score] <span class="ot">&lt;-</span> choices_score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Have a look at the results for now.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  Variable...Field.Name Form.Name Field.Type
-1             record_id      base       text
-2             base_date      base       text
-3          hypertension      base      radio
-4              diabetes      base      radio
-5          cohabitation      base      radio
-6          mrs_assessed       mrs      radio
-7              mrs_date       mrs       text
-8             mrs_score       mrs      radio
-         Choices..Calculations..OR.Slider.Labels     Field.Label
-1                                           &lt;NA&gt;              ID
-2                                           &lt;NA&gt;  Inclusion date
-3                   1, Yes | 2, No | 99, Unknown    Hypertension
-4                   1, Yes | 2, No | 99, Unknown        Diabetes
-5                   1, Yes | 2, No | 99, Unknown    Cohabitation
-6                   1, Yes | 2, No | 99, Unknown         Assesed
-7                                           &lt;NA&gt; Assessment date
-8 0, 0 | 1, 1 | 2, 2 | 3, 3 | 4, 4 | 5, 5 | 6, 6       mRS score</code></pre>
-</div>
-</div>
-</section>
-<section id="merging-and-data-validation" class="level3" data-number="2.2.4">
-<h3 data-number="2.2.4" class="anchored" data-anchor-id="merging-and-data-validation"><span class="header-section-number">2.2.4</span> Merging and data validation</h3>
-<p>Merging with all needed columns from the DataDictionary demo.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>demo_names <span class="ot">&lt;-</span> <span class="fu">colnames</span>(dd_demo)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>col_miss <span class="ot">&lt;-</span> demo_names[<span class="sc">!</span>demo_names <span class="sc">%in%</span> <span class="fu">colnames</span>(dd)]</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>df_miss <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(dd), <span class="at">ncol=</span><span class="fu">length</span>(col_miss)))</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df_miss) <span class="ot">&lt;-</span> col_miss</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>dd_upload <span class="ot">&lt;-</span> <span class="fu">cbind</span>(dd,df_miss)[demo_names]</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>dd_upload<span class="sc">$</span>Text.Validation.Type.OR.Show.Slider.Number[<span class="fu">grepl</span>(<span class="st">"_date"</span>,dd_upload<span class="sc">$</span>Variable...Field.Name)] <span class="ot">&lt;-</span> <span class="st">"date_dmy"</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>dd_upload <span class="sc">|&gt;</span> gt<span class="sc">::</span><span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(dd <span class="ot">&lt;-</span> readODS<span class="sc">::</span><span class="fu">read_ods</span>(<span class="st">"dd_draft_adds.ods"</span>, <span class="at">na =</span> <span class="st">""</span>))<span class="sc">|&gt;</span> gt<span class="sc">::</span><span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div id="bhsfmwzxme" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="myurhapdif" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#bhsfmwzxme) .gt_table {
+:where(#myurhapdif) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -949,7 +1325,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-left-color: #D3D3D3;
 }
 
-:where(#bhsfmwzxme) .gt_heading {
+:where(#myurhapdif) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -961,12 +1337,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#bhsfmwzxme) .gt_caption {
+:where(#myurhapdif) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#bhsfmwzxme) .gt_title {
+:where(#myurhapdif) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -978,7 +1354,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-width: 0;
 }
 
-:where(#bhsfmwzxme) .gt_subtitle {
+:where(#myurhapdif) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -990,13 +1366,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-width: 0;
 }
 
-:where(#bhsfmwzxme) .gt_bottom_border {
+:where(#myurhapdif) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#bhsfmwzxme) .gt_col_headings {
+:where(#myurhapdif) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1011,7 +1387,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#bhsfmwzxme) .gt_col_heading {
+:where(#myurhapdif) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1031,7 +1407,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#bhsfmwzxme) .gt_column_spanner_outer {
+:where(#myurhapdif) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1043,15 +1419,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 4px;
 }
 
-:where(#bhsfmwzxme) .gt_column_spanner_outer:first-child {
+:where(#myurhapdif) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#bhsfmwzxme) .gt_column_spanner_outer:last-child {
+:where(#myurhapdif) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#bhsfmwzxme) .gt_column_spanner {
+:where(#myurhapdif) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1063,7 +1439,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   width: 100%;
 }
 
-:where(#bhsfmwzxme) .gt_group_heading {
+:where(#myurhapdif) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1089,7 +1465,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   text-align: left;
 }
 
-:where(#bhsfmwzxme) .gt_empty_group_heading {
+:where(#myurhapdif) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1104,15 +1480,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: middle;
 }
 
-:where(#bhsfmwzxme) .gt_from_md > :first-child {
+:where(#myurhapdif) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#bhsfmwzxme) .gt_from_md > :last-child {
+:where(#myurhapdif) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#bhsfmwzxme) .gt_row {
+:where(#myurhapdif) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1131,7 +1507,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#bhsfmwzxme) .gt_stub {
+:where(#myurhapdif) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1144,7 +1520,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#bhsfmwzxme) .gt_stub_row_group {
+:where(#myurhapdif) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1158,11 +1534,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: top;
 }
 
-:where(#bhsfmwzxme) .gt_row_group_first td {
+:where(#myurhapdif) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#bhsfmwzxme) .gt_summary_row {
+:where(#myurhapdif) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1172,16 +1548,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#bhsfmwzxme) .gt_first_summary_row {
+:where(#myurhapdif) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#bhsfmwzxme) .gt_first_summary_row.thick {
+:where(#myurhapdif) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#bhsfmwzxme) .gt_last_summary_row {
+:where(#myurhapdif) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1191,7 +1567,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#bhsfmwzxme) .gt_grand_summary_row {
+:where(#myurhapdif) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1201,7 +1577,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#bhsfmwzxme) .gt_first_grand_summary_row {
+:where(#myurhapdif) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1211,11 +1587,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-color: #D3D3D3;
 }
 
-:where(#bhsfmwzxme) .gt_striped {
+:where(#myurhapdif) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#bhsfmwzxme) .gt_table_body {
+:where(#myurhapdif) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1224,7 +1600,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#bhsfmwzxme) .gt_footnotes {
+:where(#myurhapdif) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1238,7 +1614,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#bhsfmwzxme) .gt_footnote {
+:where(#myurhapdif) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1247,7 +1623,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#bhsfmwzxme) .gt_sourcenotes {
+:where(#myurhapdif) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1261,7 +1637,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#bhsfmwzxme) .gt_sourcenote {
+:where(#myurhapdif) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1269,64 +1645,1072 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#bhsfmwzxme) .gt_left {
+:where(#myurhapdif) .gt_left {
   text-align: left;
 }
 
-:where(#bhsfmwzxme) .gt_center {
+:where(#myurhapdif) .gt_center {
   text-align: center;
 }
 
-:where(#bhsfmwzxme) .gt_right {
+:where(#myurhapdif) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#bhsfmwzxme) .gt_font_normal {
+:where(#myurhapdif) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#bhsfmwzxme) .gt_font_bold {
+:where(#myurhapdif) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#bhsfmwzxme) .gt_font_italic {
+:where(#myurhapdif) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#bhsfmwzxme) .gt_super {
+:where(#myurhapdif) .gt_super {
   font-size: 65%;
 }
 
-:where(#bhsfmwzxme) .gt_footnote_marks {
+:where(#myurhapdif) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#bhsfmwzxme) .gt_asterisk {
+:where(#myurhapdif) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#bhsfmwzxme) .gt_indent_1 {
+:where(#myurhapdif) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#bhsfmwzxme) .gt_indent_2 {
+:where(#myurhapdif) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#bhsfmwzxme) .gt_indent_3 {
+:where(#myurhapdif) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#bhsfmwzxme) .gt_indent_4 {
+:where(#myurhapdif) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#bhsfmwzxme) .gt_indent_5 {
+:where(#myurhapdif) .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Variable...Field.Name">Variable...Field.Name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Form.Name">Form.Name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Field.Type">Field.Type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Choices..Calculations..OR.Slider.Labels">Choices..Calculations..OR.Slider.Labels</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Field.Label">Field.Label</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">record_id</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">NA</td>
+<td headers="Field.Label" class="gt_row gt_left">ID</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">base_date</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">NA</td>
+<td headers="Field.Label" class="gt_row gt_left">Inclusion date</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">hypertension</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Field.Type" class="gt_row gt_left">radio</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">Yes, No</td>
+<td headers="Field.Label" class="gt_row gt_left">Hypertension</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">diabetes</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Field.Type" class="gt_row gt_left">radio</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">Yes, No</td>
+<td headers="Field.Label" class="gt_row gt_left">Diabetes</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">cohabitation</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Field.Type" class="gt_row gt_left">radio</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">Yes, No</td>
+<td headers="Field.Label" class="gt_row gt_left">Cohabitation</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">mrs_assessed</td>
+<td headers="Form.Name" class="gt_row gt_left">mrs</td>
+<td headers="Field.Type" class="gt_row gt_left">radio</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">Yes, No</td>
+<td headers="Field.Label" class="gt_row gt_left">Assesed</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">mrs_date</td>
+<td headers="Form.Name" class="gt_row gt_left">mrs</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">NA</td>
+<td headers="Field.Label" class="gt_row gt_left">Assessment date</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">mrs_score</td>
+<td headers="Form.Name" class="gt_row gt_left">mrs</td>
+<td headers="Field.Type" class="gt_row gt_left">radio</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">0, 1, 2, 3, 4, 5, 6</td>
+<td headers="Field.Label" class="gt_row gt_left">mRS score</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">event_date</td>
+<td headers="Form.Name" class="gt_row gt_left">event</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">NA</td>
+<td headers="Field.Label" class="gt_row gt_left">NA</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">event_type</td>
+<td headers="Form.Name" class="gt_row gt_left">event</td>
+<td headers="Field.Type" class="gt_row gt_left">radio</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">TIA, AIS, ICH, SAH</td>
+<td headers="Field.Label" class="gt_row gt_left">NA</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="format-choices" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="format-choices"><span class="header-section-number">2.2.3</span> Format choices</h3>
+<p>Note the different <em>Field.Type’s</em> used and <em>Choices..</em>. , called labels. Each label will have a raw value. And for each of these I will also ad an “Unknown” with a artificial value of 99. This is performed with a small script.</p>
+<p>For radio buttons, I have written the different options to choose from. For variables with a score to choose from, I have written the scores, and these variables and only these variables are named something with “_score”. Variables with binary or other types of outcome, I have written the label.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># I enjoy thoughtful variable naming</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>var_bin <span class="ot">&lt;-</span> dd<span class="sc">$</span>Field.Type<span class="sc">==</span><span class="st">"radio"</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"_score"</span>, dd<span class="sc">$</span>Variable...Field.Name)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>choices_bin <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">strsplit</span>(dd<span class="sc">$</span>Choices..Calculations..OR.Slider.Labels[var_bin], <span class="at">split =</span> <span class="st">", "</span>),<span class="cf">function</span>(i){</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(<span class="fu">paste0</span>(<span class="fu">c</span>(<span class="fu">seq_len</span>(<span class="fu">length</span>(i)),<span class="st">"99"</span>), <span class="st">","</span>),<span class="fu">c</span>(i,<span class="st">"Unknown"</span>),<span class="at">collapse =</span> <span class="st">" | "</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>Choices..Calculations..OR.Slider.Labels[var_bin] <span class="ot">&lt;-</span> choices_bin</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>var_score <span class="ot">&lt;-</span> dd<span class="sc">$</span>Field.Type<span class="sc">==</span><span class="st">"radio"</span> <span class="sc">&amp;</span> <span class="fu">grepl</span>(<span class="st">"_score"</span>, dd<span class="sc">$</span>Variable...Field.Name)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>choices_score <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">strsplit</span>(dd<span class="sc">$</span>Choices..Calculations..OR.Slider.Labels[var_score], <span class="at">split =</span> <span class="st">", "</span>),<span class="cf">function</span>(i){</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(<span class="fu">paste0</span>(i, <span class="st">","</span>),i,<span class="at">collapse =</span> <span class="st">" | "</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>Choices..Calculations..OR.Slider.Labels[var_score] <span class="ot">&lt;-</span> choices_score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Have a look at the results for now.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dd <span class="sc">|&gt;</span> gt<span class="sc">::</span><span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div id="nomlxcfthe" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+:where(#nomlxcfthe) .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+:where(#nomlxcfthe) .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#nomlxcfthe) .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+:where(#nomlxcfthe) .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+:where(#nomlxcfthe) .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+:where(#nomlxcfthe) .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#nomlxcfthe) .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#nomlxcfthe) .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+:where(#nomlxcfthe) .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+:where(#nomlxcfthe) .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+:where(#nomlxcfthe) .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+:where(#nomlxcfthe) .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+:where(#nomlxcfthe) .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+:where(#nomlxcfthe) .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+:where(#nomlxcfthe) .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+:where(#nomlxcfthe) .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+:where(#nomlxcfthe) .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+:where(#nomlxcfthe) .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#nomlxcfthe) .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+:where(#nomlxcfthe) .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+:where(#nomlxcfthe) .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#nomlxcfthe) .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+:where(#nomlxcfthe) .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+:where(#nomlxcfthe) .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#nomlxcfthe) .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#nomlxcfthe) .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+:where(#nomlxcfthe) .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+:where(#nomlxcfthe) .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#nomlxcfthe) .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#nomlxcfthe) .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#nomlxcfthe) .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#nomlxcfthe) .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#nomlxcfthe) .gt_left {
+  text-align: left;
+}
+
+:where(#nomlxcfthe) .gt_center {
+  text-align: center;
+}
+
+:where(#nomlxcfthe) .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(#nomlxcfthe) .gt_font_normal {
+  font-weight: normal;
+}
+
+:where(#nomlxcfthe) .gt_font_bold {
+  font-weight: bold;
+}
+
+:where(#nomlxcfthe) .gt_font_italic {
+  font-style: italic;
+}
+
+:where(#nomlxcfthe) .gt_super {
+  font-size: 65%;
+}
+
+:where(#nomlxcfthe) .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+:where(#nomlxcfthe) .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+:where(#nomlxcfthe) .gt_indent_1 {
+  text-indent: 5px;
+}
+
+:where(#nomlxcfthe) .gt_indent_2 {
+  text-indent: 10px;
+}
+
+:where(#nomlxcfthe) .gt_indent_3 {
+  text-indent: 15px;
+}
+
+:where(#nomlxcfthe) .gt_indent_4 {
+  text-indent: 20px;
+}
+
+:where(#nomlxcfthe) .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Variable...Field.Name">Variable...Field.Name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Form.Name">Form.Name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Field.Type">Field.Type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Choices..Calculations..OR.Slider.Labels">Choices..Calculations..OR.Slider.Labels</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Field.Label">Field.Label</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">record_id</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">NA</td>
+<td headers="Field.Label" class="gt_row gt_left">ID</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">base_date</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">NA</td>
+<td headers="Field.Label" class="gt_row gt_left">Inclusion date</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">hypertension</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Field.Type" class="gt_row gt_left">radio</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">1, Yes | 2, No | 99, Unknown</td>
+<td headers="Field.Label" class="gt_row gt_left">Hypertension</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">diabetes</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Field.Type" class="gt_row gt_left">radio</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">1, Yes | 2, No | 99, Unknown</td>
+<td headers="Field.Label" class="gt_row gt_left">Diabetes</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">cohabitation</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Field.Type" class="gt_row gt_left">radio</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">1, Yes | 2, No | 99, Unknown</td>
+<td headers="Field.Label" class="gt_row gt_left">Cohabitation</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">mrs_assessed</td>
+<td headers="Form.Name" class="gt_row gt_left">mrs</td>
+<td headers="Field.Type" class="gt_row gt_left">radio</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">1, Yes | 2, No | 99, Unknown</td>
+<td headers="Field.Label" class="gt_row gt_left">Assesed</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">mrs_date</td>
+<td headers="Form.Name" class="gt_row gt_left">mrs</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">NA</td>
+<td headers="Field.Label" class="gt_row gt_left">Assessment date</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">mrs_score</td>
+<td headers="Form.Name" class="gt_row gt_left">mrs</td>
+<td headers="Field.Type" class="gt_row gt_left">radio</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">0, 0 | 1, 1 | 2, 2 | 3, 3 | 4, 4 | 5, 5 | 6, 6</td>
+<td headers="Field.Label" class="gt_row gt_left">mRS score</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">event_date</td>
+<td headers="Form.Name" class="gt_row gt_left">event</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">NA</td>
+<td headers="Field.Label" class="gt_row gt_left">NA</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">event_type</td>
+<td headers="Form.Name" class="gt_row gt_left">event</td>
+<td headers="Field.Type" class="gt_row gt_left">radio</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">1, TIA | 2, AIS | 3, ICH | 4, SAH | 99, Unknown</td>
+<td headers="Field.Label" class="gt_row gt_left">NA</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="merging-and-data-validation" class="level3" data-number="2.2.4">
+<h3 data-number="2.2.4" class="anchored" data-anchor-id="merging-and-data-validation"><span class="header-section-number">2.2.4</span> Merging and data validation</h3>
+<p>Merging with all needed columns from the DataDictionary demo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>demo_names <span class="ot">&lt;-</span> <span class="fu">colnames</span>(dd_demo)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>col_miss <span class="ot">&lt;-</span> demo_names[<span class="sc">!</span>demo_names <span class="sc">%in%</span> <span class="fu">colnames</span>(dd)]</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>df_miss <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">nrow</span>(dd), <span class="at">ncol=</span><span class="fu">length</span>(col_miss)))</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df_miss) <span class="ot">&lt;-</span> col_miss</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>dd_upload <span class="ot">&lt;-</span> <span class="fu">cbind</span>(dd,df_miss)[demo_names]</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>dd_upload<span class="sc">$</span>Text.Validation.Type.OR.Show.Slider.Number[<span class="fu">grepl</span>(<span class="st">"_date"</span>,dd_upload<span class="sc">$</span>Variable...Field.Name)] <span class="ot">&lt;-</span> <span class="st">"date_dmy"</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>dd_upload <span class="sc">|&gt;</span> gt<span class="sc">::</span><span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div id="ezedlernvo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+:where(#ezedlernvo) .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+:where(#ezedlernvo) .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#ezedlernvo) .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+:where(#ezedlernvo) .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+:where(#ezedlernvo) .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+:where(#ezedlernvo) .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#ezedlernvo) .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#ezedlernvo) .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+:where(#ezedlernvo) .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+:where(#ezedlernvo) .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+:where(#ezedlernvo) .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+:where(#ezedlernvo) .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+:where(#ezedlernvo) .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+:where(#ezedlernvo) .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+:where(#ezedlernvo) .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+:where(#ezedlernvo) .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+:where(#ezedlernvo) .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+:where(#ezedlernvo) .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#ezedlernvo) .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+:where(#ezedlernvo) .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+:where(#ezedlernvo) .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#ezedlernvo) .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+:where(#ezedlernvo) .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+:where(#ezedlernvo) .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#ezedlernvo) .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#ezedlernvo) .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+:where(#ezedlernvo) .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+:where(#ezedlernvo) .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#ezedlernvo) .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#ezedlernvo) .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#ezedlernvo) .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#ezedlernvo) .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#ezedlernvo) .gt_left {
+  text-align: left;
+}
+
+:where(#ezedlernvo) .gt_center {
+  text-align: center;
+}
+
+:where(#ezedlernvo) .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(#ezedlernvo) .gt_font_normal {
+  font-weight: normal;
+}
+
+:where(#ezedlernvo) .gt_font_bold {
+  font-weight: bold;
+}
+
+:where(#ezedlernvo) .gt_font_italic {
+  font-style: italic;
+}
+
+:where(#ezedlernvo) .gt_super {
+  font-size: 65%;
+}
+
+:where(#ezedlernvo) .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+:where(#ezedlernvo) .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+:where(#ezedlernvo) .gt_indent_1 {
+  text-indent: 5px;
+}
+
+:where(#ezedlernvo) .gt_indent_2 {
+  text-indent: 10px;
+}
+
+:where(#ezedlernvo) .gt_indent_3 {
+  text-indent: 15px;
+}
+
+:where(#ezedlernvo) .gt_indent_4 {
+  text-indent: 20px;
+}
+
+:where(#ezedlernvo) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1481,6 +2865,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td headers="Custom.Alignment" class="gt_row gt_center">NA</td>
 <td headers="Question.Number..surveys.only." class="gt_row gt_center">NA</td>
 <td headers="Matrix.Group.Name" class="gt_row gt_center">NA</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">event_date</td>
+<td headers="Form.Name" class="gt_row gt_left">event</td>
+<td headers="Section.Header" class="gt_row gt_center">NA</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Field.Label" class="gt_row gt_left">NA</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">NA</td>
+<td headers="Field.Note" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Type.OR.Show.Slider.Number" class="gt_row gt_left">date_dmy</td>
+<td headers="Text.Validation.Min" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Max" class="gt_row gt_center">NA</td>
+<td headers="Identifier." class="gt_row gt_center">NA</td>
+<td headers="Branching.Logic..Show.field.only.if...." class="gt_row gt_center">NA</td>
+<td headers="Required.Field." class="gt_row gt_center">NA</td>
+<td headers="Custom.Alignment" class="gt_row gt_center">NA</td>
+<td headers="Question.Number..surveys.only." class="gt_row gt_center">NA</td>
+<td headers="Matrix.Group.Name" class="gt_row gt_center">NA</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">event_type</td>
+<td headers="Form.Name" class="gt_row gt_left">event</td>
+<td headers="Section.Header" class="gt_row gt_center">NA</td>
+<td headers="Field.Type" class="gt_row gt_left">radio</td>
+<td headers="Field.Label" class="gt_row gt_left">NA</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">1, TIA | 2, AIS | 3, ICH | 4, SAH | 99, Unknown</td>
+<td headers="Field.Note" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Type.OR.Show.Slider.Number" class="gt_row gt_left">NA</td>
+<td headers="Text.Validation.Min" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Max" class="gt_row gt_center">NA</td>
+<td headers="Identifier." class="gt_row gt_center">NA</td>
+<td headers="Branching.Logic..Show.field.only.if...." class="gt_row gt_center">NA</td>
+<td headers="Required.Field." class="gt_row gt_center">NA</td>
+<td headers="Custom.Alignment" class="gt_row gt_center">NA</td>
+<td headers="Question.Number..surveys.only." class="gt_row gt_center">NA</td>
+<td headers="Matrix.Group.Name" class="gt_row gt_center">NA</td></tr>
   </tbody>
   
   
@@ -1493,14 +2909,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 data-number="2.2.5" class="anchored" data-anchor-id="upload-the-datadictionary"><span class="header-section-number">2.2.5</span> Upload the DataDictionary</h3>
 <p>The DataDictionary can be uploaded using the API or manually via the REDCap webpage. Here I’ll show the first option:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>REDCapR<span class="sc">::</span><span class="fu">redcap_metadata_write</span>(dd_upload,</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">uri=</span>,</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">token=</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>REDCapR<span class="sc">::</span><span class="fu">redcap_metadata_write</span>(dd_upload,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">redcap_uri =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"DB_URI"</span>),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">token =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"example_api"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="coming-up" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="coming-up"><span class="header-section-number">2.3</span> Coming up</h2>
+<section id="upload-data-to-the-project" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="upload-data-to-the-project"><span class="header-section-number">2.3</span> Upload data to the project</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>REDCapR<span class="sc">::</span><span class="fu">redcap_read_oneshot</span>(<span class="at">redcap_uri =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"DB_URI"</span>),</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">token =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"example_api"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>REDCapR<span class="sc">::</span><span class="fu">redcap_write</span>(<span class="at">ds_to_write =</span> df,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">redcap_uri =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"DB_URI"</span>),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">token =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"example_api"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="coming-up" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="coming-up"><span class="header-section-number">2.4</span> Coming up</h2>
 <ul>
 <li>Rewrite of chapter to a more generel use case</li>
 <li>Tips for branching and calculations</li>
@@ -1646,8 +3074,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./intro.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Intro to REDCap data</span></span>
+      <a href="./access.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data access</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

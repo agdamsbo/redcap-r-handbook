@@ -1,10 +1,16 @@
-# Preface {.unnumbered}
+# Preface {#sec-preface .unnumbered}
 
 This is a handbook on working with REDCap in R.
 
-## Source
+The book is written out of necessity as documentation for new undergraduate students to work in R with study data stored in a REDCap data base. From this have evolved the desire to share experiences on building and managing databases in REDCap with R.
 
-This book is a Quarto book written in Quarto (RStudio).
+The goal is to write a handbook for new researchers working with REDCap and R and to have a reference for more experienced users. The book will be heavy on examples and suggestions to best practice.
+
+## Contribute {#sec-contribute .unnumbered}
+
+This book is open source and shared under a GPL-3 license. Contributions are very welcome. Please write the author, comment or create a PR on GitHub.
+
+The book is written in Quarto in RStudio.
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages

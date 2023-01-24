@@ -20,16 +20,16 @@ Change the `var_name` vector to the variable names of your own project and the s
 require(readODS)
 
 # Naming the different variables ("record_id" is the default name for the record number)
-var_name <- c("record_id","base_date","hypertension", "diabetes", "cohabitation","mrs_assessed","mrs_date","mrs_score") 
+var_name <- c("record_id","base_date","hypertension", "diabetes", "cohabitation","mrs_assessed","mrs_date","mrs_score","event_date","event_type") 
 # Instrument/form name corresponding to the variables
-instrument = c("base","base","base","base","base","mrs","mrs","mrs")
+instrument = c("base","base","base","base","base","mrs","mrs","mrs","event","event")
 
 # Combining the vectors with default data in data frame
 (dd_draft <- data.frame(Variable...Field.Name=var_name,
            Form.Name=instrument,
            Field.Type = "text",
            Choices..Calculations..OR.Slider.Labels = "",
-           Field.Label = ""))
+           Field.Label = "")) |>  gt::gt()
 
 # Exporting for manual manipulation
 write_ods(dd_draft,
@@ -54,7 +54,7 @@ system2("open", "dd_draft.ods")
 Type or paste the needed information manually, save the file with a new name (I did "dd_draft_adds.ods") and load it again.
 
 ```{r redcap-dd-adds}
-(dd <- read_ods("dd_draft_adds.ods", na = ""))
+(dd <- readODS::read_ods("dd_draft_adds.ods", na = ""))|> gt::gt()
 ```
 
 ### Format choices
@@ -87,7 +87,7 @@ dd$Choices..Calculations..OR.Slider.Labels[var_score] <- choices_score
 Have a look at the results for now.
 
 ```{r}
-dd
+dd |> gt::gt()
 ```
 
 ### Merging and data validation
@@ -115,8 +115,21 @@ The DataDictionary can be uploaded using the API or manually via the REDCap webp
 
 ```{r redcap_dd-write, eval=FALSE}
 REDCapR::redcap_metadata_write(dd_upload,
-                               uri=,
-                               token=)
+                               redcap_uri = keyring::key_get("DB_URI"),
+                               token = keyring::key_get("example_api"))
+```
+
+## Upload data to the project
+
+```{r eval=FALSE}
+REDCapR::redcap_read_oneshot(redcap_uri = keyring::key_get("DB_URI"),
+                             token = keyring::key_get("example_api"))
+```
+
+```{r eval=FALSE}
+REDCapR::redcap_write(ds_to_write = df,
+                      redcap_uri = keyring::key_get("DB_URI"),
+                      token = keyring::key_get("example_api"))
 ```
 
 ## Coming up

@@ -1,4 +1,4 @@
-# Intro to REDCap data {#redcap-intro}
+# Data access {#sec-data-access}
 
 This section is intended as a "REDCap data manipulation 101" for pre-graduate students in the group and as an intro to getting RStudio set up for work with REDCap data.
 
@@ -8,7 +8,7 @@ Following the package link provides an extensive description on workflows and fu
 
 A more thorough discussion on REDCap data can be found later as well as a chapter on tips to building a REDCap database.
 
-## Getting access
+## Getting access {#sec-getting-access}
 
 Before you are able to get any data out of REDCap, make sure that you are able to get in. After you are logged in, make sure, that you have permissions to get an API-key. The API-key is a alpha-numeric key used to verify yourself to the REDCap server, when requesting data export.
 
@@ -25,9 +25,13 @@ require(keyring)
 key_set("API_KEY", prompt = "API key: ")
 ```
 
+```{r uri-storage, eval=FALSE}
+key_set("DB_URI", prompt = "Data base uri: ")
+```
+
 Do note, that the name "API_KEY" can be changed to whatever you prefer. Note that the function will overwrite any existing keys with the same name without any warning (!).
 
-## Downloading data
+## Downloading data {#sec-downloading-data}
 
 There are different packages to access and download data from R. In the [REDCap-tools repository](https://redcap-tools.github.io/projects/), available tools and packages are referenced. Here I will provide an example, as to download minimal data in a focused way, using REDCapR.[@R-REDCapR].
 
@@ -37,14 +41,14 @@ Please have a look in the [REDCap-chapter](#redcap-data) for an optimised approa
 library(REDCapR)
 # Returns the variables "record_id" and "age".
 ds_some_vars <- redcap_read(
-  redcap_uri   = "https://redcap.au.dk/api/",  # This is the address for projects at the AU-server
+  redcap_uri   = keyring::key_get("DB_URI"),  # This is the address for projects at the AU-server
   token        = keyring::key_get("API_KEY"),
   fields       = c("record_id", "age")
 )$data 
 
 # Return only records with IDs of 1 and 4
 ds_some_rows <- redcap_read(
-  redcap_uri   = "https://redcap.au.dk/api/",  # This is the address for projects at the AU-server
+  redcap_uri   = keyring::key_get("DB_URI"),  # This is the address for projects at the AU-server
   token        = keyring::key_get("API_KEY"),
   records      = c(1, 4)
 )$data
@@ -55,7 +59,7 @@ To get a full list of available variable names, you can either go through the co
 ```{r readcapr-colnames, eval=FALSE}
 # Returns a vector of names of all accessible variables.
 variable_names <- redcap_read(
-  redcap_uri   = "https://redcap.au.dk/api/",  # This is the address for projects at the AU-server
+  redcap_uri   = keyring::key_get("DB_URI"),  # This is the address for projects at the AU-server
   token        = keyring::key_get("API_KEY")
 )$data |> 
   colnames()
@@ -65,8 +69,8 @@ Here is an example on how to export data on RBANS and cleaning the data for plot
 
 ```{r readcapr-example, eval=FALSE}
 ds <- redcap_read(
-  redcap_uri   = "https://redcap.au.dk/api/",  # This is the address for projects at the AU-server
-  token        = "YOUR_API_KEY_GOES_HERE",
+  redcap_uri   = keyring::key_get("DB_URI"),  # This is the address for projects at the AU-server
+  token        = keyring::key_get("API_KEY"),
   records      = c(1:35), # Downloading data from ID 1 to 35.
   forms        = "rbans", # Downloading only the RBANS instrument
   event        = c("3_months_arm_1", # Specifying only to download 3 and 12 months data
