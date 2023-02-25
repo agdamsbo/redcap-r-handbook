@@ -4,7 +4,14 @@
     "href": "index.html",
     "title": "REDCap R Handbook",
     "section": "",
-    "text": "Preface\nThis is a handbook on working with REDCap in R.\nThe book is written out of necessity as documentation for new undergraduate students to work in R with study data stored in a REDCap data base. From this have evolved the desire to share experiences on building and managing databases in REDCap with R.\nThe goal is to write a handbook for new researchers working with REDCap and R and to have a reference for more experienced users. The book will be heavy on examples and suggestions to best practice."
+    "text": "Preface\nThis is a handbook on working with REDCap in R.\nThe book is written out of necessity as documentation for new undergraduate students to work in R with study data stored in a REDCap data base. From this have evolved the desire to share experiences on building and managing databases in REDCap with R.\nThe goal is to write a handbook for new researchers working with REDCap and R and to have a reference for more experienced users. The book will be heavy on examples and suggestions to best practice.\nA comprehensive overview of tools for working with REDCap databases can be found here: REDCap-tools repository."
+  },
+  {
+    "objectID": "index.html#sec-a-niche",
+    "href": "index.html#sec-a-niche",
+    "title": "REDCap R Handbook",
+    "section": "A niche?",
+    "text": "A niche?\nIn my work with REDCap, in building databases and working with data, I have been very happy working in R. This helps to ensure reproducible work and gives better overview, when working with larger databases, or when using a dataset or variable description as the foundation for the database. The last is most often the case.\nThere are many guidelines for working with the graphical interface, but I’ve not been able to find much guidance for working through the REDCap API in R. This book tries to fill that niche."
   },
   {
     "objectID": "index.html#sec-contribute",
@@ -24,50 +31,64 @@
     "objectID": "access.html#sec-downloading-data",
     "href": "access.html#sec-downloading-data",
     "title": "1  Data access",
-    "section": "1.2 Downloading data",
-    "text": "1.2 Downloading data\nThere are different packages to access and download data from R. In the REDCap-tools repository, available tools and packages are referenced. Here I will provide an example, as to download minimal data in a focused way, using REDCapR.(Beasley 2022).\nPlease have a look in the REDCap-chapter for an optimised approach when handling events and repeated instruments.\n\nlibrary(REDCapR)\n# Returns the variables \"record_id\" and \"age\".\nds_some_vars <- redcap_read(\n  redcap_uri   = keyring::key_get(\"DB_URI\"),  # This is the address for projects at the AU-server\n  token        = keyring::key_get(\"API_KEY\"),\n  fields       = c(\"record_id\", \"age\")\n)$data \n\n# Return only records with IDs of 1 and 4\nds_some_rows <- redcap_read(\n  redcap_uri   = keyring::key_get(\"DB_URI\"),  # This is the address for projects at the AU-server\n  token        = keyring::key_get(\"API_KEY\"),\n  records      = c(1, 4)\n)$data\n\nTo get a full list of available variable names, you can either go through the codebook on REDCap, or you can try the following, but be aware, that the resulting vector of variable names can get a little long and confusing.\n\n# Returns a vector of names of all accessible variables.\nvariable_names <- redcap_read(\n  redcap_uri   = keyring::key_get(\"DB_URI\"),  # This is the address for projects at the AU-server\n  token        = keyring::key_get(\"API_KEY\")\n)$data |> \n  colnames()\n\nHere is an example on how to export data on RBANS and cleaning the data for plotting.\n\nds <- redcap_read(\n  redcap_uri   = keyring::key_get(\"DB_URI\"),  # This is the address for projects at the AU-server\n  token        = keyring::key_get(\"API_KEY\"),\n  records      = c(1:35), # Downloading data from ID 1 to 35.\n  forms        = \"rbans\", # Downloading only the RBANS instrument\n  event        = c(\"3_months_arm_1\", # Specifying only to download 3 and 12 months data\n                   \"12_months_arm_1\")\n  )$data |> \n  select( # Selecting variables to keep\n    c(\"record_id\",\n      \"redcap_event_name\",\n      ends_with(c(\"_is\",\"_lo\",\"_up\",\"_per\"))) # I only want index scores, lower and upper CIs and percentile.\n         )   |> \n  na.omit() # Omitting IDs with missing data.\nhead(ds, n = 5) # Showing only the first 5 rows\n\nFurther examples and scripts can be found in the ENIGMA code repository.\n\n\n\n\nBeasley, Will. 2022. REDCapR: Interaction Between r and REDCap. https://CRAN.R-project.org/package=REDCapR.\n\n\nCsárdi, Gábor. 2022. Keyring: Access the System Credential Store from r. https://CRAN.R-project.org/package=keyring."
+    "section": "1.2 ",
+    "text": "1.2 \n\n\n\n\nBeasley, Will. 2022. REDCapR: Interaction Between r and REDCap. https://CRAN.R-project.org/package=REDCapR.\n\n\nCsárdi, Gábor. 2022. Keyring: Access the System Credential Store from r. https://CRAN.R-project.org/package=keyring."
   },
   {
-    "objectID": "databases.html#redcap-scratch",
-    "href": "databases.html#redcap-scratch",
-    "title": "2  Building a REDCap database",
-    "section": "2.1 Creating a database",
-    "text": "2.1 Creating a database\nLessons learned…"
+    "objectID": "datahandling.html",
+    "href": "datahandling.html",
+    "title": "Handling data from a database",
+    "section": "",
+    "text": "In this chapter I will discuss different approaches to acquiring and handling data from a REDCap database."
   },
   {
-    "objectID": "databases.html#redcap-dataset",
-    "href": "databases.html#redcap-dataset",
-    "title": "2  Building a REDCap database",
-    "section": "2.2 Setting up a database from a dataset",
-    "text": "2.2 Setting up a database from a dataset\nBelow will follow steps necessary to get a data base set up based on a data set provided.\n\n2.2.1 Create a data dictionary\nCopy and run the following to create a DataDictionary draft.\nChange the var_name vector to the variable names of your own project and the same for instrument. Then export the DataDictionary draft and open the .ods file in a visual editor as LibreOffice.\n\nrequire(readODS)\n\nLoading required package: readODS\n\n# Naming the different variables (\"record_id\" is the default name for the record number)\nvar_name <- c(\"record_id\",\"base_date\",\"hypertension\", \"diabetes\", \"cohabitation\",\"mrs_assessed\",\"mrs_date\",\"mrs_score\",\"event_date\",\"event_type\") \n# Instrument/form name corresponding to the variables\ninstrument = c(\"base\",\"base\",\"base\",\"base\",\"base\",\"mrs\",\"mrs\",\"mrs\",\"event\",\"event\")\n\n# Combining the vectors with default data in data frame\n(dd_draft <- data.frame(Variable...Field.Name=var_name,\n           Form.Name=instrument,\n           Field.Type = \"text\",\n           Choices..Calculations..OR.Slider.Labels = \"\",\n           Field.Label = \"\")) |>  gt::gt()\n\n\n\n\n\n  \n  \n    \n      Variable...Field.Name\n      Form.Name\n      Field.Type\n      Choices..Calculations..OR.Slider.Labels\n      Field.Label\n    \n  \n  \n    record_id\nbase\ntext\n\n\n    base_date\nbase\ntext\n\n\n    hypertension\nbase\ntext\n\n\n    diabetes\nbase\ntext\n\n\n    cohabitation\nbase\ntext\n\n\n    mrs_assessed\nmrs\ntext\n\n\n    mrs_date\nmrs\ntext\n\n\n    mrs_score\nmrs\ntext\n\n\n    event_date\nevent\ntext\n\n\n    event_type\nevent\ntext\n\n\n  \n  \n  \n\n\n\n# Exporting for manual manipulation\nwrite_ods(dd_draft,\n          path = \"dd_draft.ods\")\n\n\n\n2.2.2 Specify variable names etc.\nHave a look at the demonstration file below for inspiration.\n\n(dd_demo <- read.csv(\"./redcap/REDCapDataDictonaryDemo.csv\")) |> head() |> gt::gt()\n\n\n\n\n\n  \n  \n    \n      Variable...Field.Name\n      Form.Name\n      Section.Header\n      Field.Type\n      Field.Label\n      Choices..Calculations..OR.Slider.Labels\n      Field.Note\n      Text.Validation.Type.OR.Show.Slider.Number\n      Text.Validation.Min\n      Text.Validation.Max\n      Identifier.\n      Branching.Logic..Show.field.only.if....\n      Required.Field.\n      Custom.Alignment\n      Question.Number..surveys.only.\n      Matrix.Group.Name\n    \n  \n  \n    study_id\ndemographics\n\ntext\nStudy ID\n\n\n\nNA\nNA\n\n\n\nNA\nNA\n\n    date_enrolled\ndemographics\nDemographic Characteristics\ntext\nDate subject signed consent\n\nYYYY-MM-DD\ndate\nNA\nNA\n\n\n\nNA\nNA\n\n    first_name\ndemographics\n\ntext\nFirst Name\n\n\n\nNA\nNA\ny\n\n\nNA\nNA\n\n    last_name\ndemographics\n\ntext\nLast Name\n\n\n\nNA\nNA\ny\n\n\nNA\nNA\n\n    address\ndemographics\nContact Information\nnotes\nStreet, City, State, ZIP\n\n\n\nNA\nNA\ny\n\n\nNA\nNA\n\n    telephone_1\ndemographics\n\ntext\nPhone number\n\nInclude Area Code\nphone\nNA\nNA\ny\n\n\nNA\nNA\n\n  \n  \n  \n\n\n\n\nOpen the exported file “dd_draft.ods”.\n\n# Opens file with standard program\nsystem2(\"open\", \"dd_draft.ods\")\n\nType or paste the needed information manually, save the file with a new name (I did “dd_draft_adds.ods”) and load it again.\n\n(dd <- readODS::read_ods(\"dd_draft_adds.ods\", na = \"\"))|> gt::gt()\n\n\n\n\n\n  \n  \n    \n      Variable...Field.Name\n      Form.Name\n      Field.Type\n      Choices..Calculations..OR.Slider.Labels\n      Field.Label\n    \n  \n  \n    record_id\nbase\ntext\nNA\nID\n    base_date\nbase\ntext\nNA\nInclusion date\n    hypertension\nbase\nradio\nYes, No\nHypertension\n    diabetes\nbase\nradio\nYes, No\nDiabetes\n    cohabitation\nbase\nradio\nYes, No\nCohabitation\n    mrs_assessed\nmrs\nradio\nYes, No\nAssesed\n    mrs_date\nmrs\ntext\nNA\nAssessment date\n    mrs_score\nmrs\nradio\n0, 1, 2, 3, 4, 5, 6\nmRS score\n    event_date\nevent\ntext\nNA\nNA\n    event_type\nevent\nradio\nTIA, AIS, ICH, SAH\nNA\n  \n  \n  \n\n\n\n\n\n\n2.2.3 Format choices\nNote the different Field.Type’s used and Choices... , called labels. Each label will have a raw value. And for each of these I will also ad an “Unknown” with a artificial value of 99. This is performed with a small script.\nFor radio buttons, I have written the different options to choose from. For variables with a score to choose from, I have written the scores, and these variables and only these variables are named something with “_score”. Variables with binary or other types of outcome, I have written the label.\n\n# I enjoy thoughtful variable naming\nvar_bin <- dd$Field.Type==\"radio\" & !grepl(\"_score\", dd$Variable...Field.Name)\n\nchoices_bin <- unlist(lapply(strsplit(dd$Choices..Calculations..OR.Slider.Labels[var_bin], split = \", \"),function(i){\n  paste(paste0(c(seq_len(length(i)),\"99\"), \",\"),c(i,\"Unknown\"),collapse = \" | \")\n}))\n\ndd$Choices..Calculations..OR.Slider.Labels[var_bin] <- choices_bin\n\n\nvar_score <- dd$Field.Type==\"radio\" & grepl(\"_score\", dd$Variable...Field.Name)\n\nchoices_score <- unlist(lapply(strsplit(dd$Choices..Calculations..OR.Slider.Labels[var_score], split = \", \"),function(i){\n  paste(paste0(i, \",\"),i,collapse = \" | \")\n}))\n\ndd$Choices..Calculations..OR.Slider.Labels[var_score] <- choices_score\n\nHave a look at the results for now.\n\ndd |> gt::gt()\n\n\n\n\n\n  \n  \n    \n      Variable...Field.Name\n      Form.Name\n      Field.Type\n      Choices..Calculations..OR.Slider.Labels\n      Field.Label\n    \n  \n  \n    record_id\nbase\ntext\nNA\nID\n    base_date\nbase\ntext\nNA\nInclusion date\n    hypertension\nbase\nradio\n1, Yes | 2, No | 99, Unknown\nHypertension\n    diabetes\nbase\nradio\n1, Yes | 2, No | 99, Unknown\nDiabetes\n    cohabitation\nbase\nradio\n1, Yes | 2, No | 99, Unknown\nCohabitation\n    mrs_assessed\nmrs\nradio\n1, Yes | 2, No | 99, Unknown\nAssesed\n    mrs_date\nmrs\ntext\nNA\nAssessment date\n    mrs_score\nmrs\nradio\n0, 0 | 1, 1 | 2, 2 | 3, 3 | 4, 4 | 5, 5 | 6, 6\nmRS score\n    event_date\nevent\ntext\nNA\nNA\n    event_type\nevent\nradio\n1, TIA | 2, AIS | 3, ICH | 4, SAH | 99, Unknown\nNA\n  \n  \n  \n\n\n\n\n\n\n2.2.4 Merging and data validation\nMerging with all needed columns from the DataDictionary demo.\n\ndemo_names <- colnames(dd_demo)\n\ncol_miss <- demo_names[!demo_names %in% colnames(dd)]\n\ndf_miss <- data.frame(matrix(nrow = nrow(dd), ncol=length(col_miss)))\ncolnames(df_miss) <- col_miss\n\ndd_upload <- cbind(dd,df_miss)[demo_names]\n\ndd_upload$Text.Validation.Type.OR.Show.Slider.Number[grepl(\"_date\",dd_upload$Variable...Field.Name)] <- \"date_dmy\"\n\ndd_upload |> gt::gt()\n\n\n\n\n\n  \n  \n    \n      Variable...Field.Name\n      Form.Name\n      Section.Header\n      Field.Type\n      Field.Label\n      Choices..Calculations..OR.Slider.Labels\n      Field.Note\n      Text.Validation.Type.OR.Show.Slider.Number\n      Text.Validation.Min\n      Text.Validation.Max\n      Identifier.\n      Branching.Logic..Show.field.only.if....\n      Required.Field.\n      Custom.Alignment\n      Question.Number..surveys.only.\n      Matrix.Group.Name\n    \n  \n  \n    record_id\nbase\nNA\ntext\nID\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\n    base_date\nbase\nNA\ntext\nInclusion date\nNA\nNA\ndate_dmy\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\n    hypertension\nbase\nNA\nradio\nHypertension\n1, Yes | 2, No | 99, Unknown\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\n    diabetes\nbase\nNA\nradio\nDiabetes\n1, Yes | 2, No | 99, Unknown\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\n    cohabitation\nbase\nNA\nradio\nCohabitation\n1, Yes | 2, No | 99, Unknown\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\n    mrs_assessed\nmrs\nNA\nradio\nAssesed\n1, Yes | 2, No | 99, Unknown\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\n    mrs_date\nmrs\nNA\ntext\nAssessment date\nNA\nNA\ndate_dmy\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\n    mrs_score\nmrs\nNA\nradio\nmRS score\n0, 0 | 1, 1 | 2, 2 | 3, 3 | 4, 4 | 5, 5 | 6, 6\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\n    event_date\nevent\nNA\ntext\nNA\nNA\nNA\ndate_dmy\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\n    event_type\nevent\nNA\nradio\nNA\n1, TIA | 2, AIS | 3, ICH | 4, SAH | 99, Unknown\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\nNA\n  \n  \n  \n\n\n\n\n\n\n2.2.5 Upload the DataDictionary\nThe DataDictionary can be uploaded using the API or manually via the REDCap webpage. Here I’ll show the first option:\n\nREDCapR::redcap_metadata_write(dd_upload,\n                               redcap_uri = keyring::key_get(\"DB_URI\"),\n                               token = keyring::key_get(\"example_api\"))"
+    "objectID": "acquisition.html",
+    "href": "acquisition.html",
+    "title": "2  Downloading data",
+    "section": "",
+    "text": "Please make sure to read the previous chapter on how to getting access to the database.\nUsing the REDCap API to access and download data from a database, there are two different approaches:\n\nA focused, “get what you need”-approach and\na more simple “get it all”-approach\n\nWorking with longitudinal projects and/or repeated instruments will result in castellated dataset. The package library(REDCapTidieR)(Hanna, Kadauke, and Porter 2022) provides a solution to the castellation, but downloads full instruments, which is not always desirable.\nIn the following, the two approaches will be demonstrated including a possible third approach, requiring a little more technical willingness.\n\n2.0.1 Focus\nThere are different packages to access and download data from R. In the , available tools and packages are referenced. Here I will provide an example, as to download minimal data in a focused way, using REDCapR.(Beasley 2022).\nPlease have a look in the REDCap-chapter for an optimised approach when handling events and repeated instruments.\n\nlibrary(REDCapR)\n# Returns the variables \"record_id\" and \"age\".\nds_some_vars <- redcap_read(\n  redcap_uri   = keyring::key_get(\"DB_URI\"),  # This is the address for projects at the AU-server\n  token        = keyring::key_get(\"API_KEY\"),\n  fields       = c(\"record_id\", \"age\")\n)$data \n\n# Return only records with IDs of 1 and 4\nds_some_rows <- redcap_read(\n  redcap_uri   = keyring::key_get(\"DB_URI\"),  # This is the address for projects at the AU-server\n  token        = keyring::key_get(\"API_KEY\"),\n  records      = c(1, 4)\n)$data\n\nTo get a full list of available variable names, you can either go through the codebook on REDCap, or you can try the following, but be aware, that the resulting vector of variable names can get a little long and confusing.\n\n# Returns a vector of names of all accessible variables.\nvariable_names <- redcap_read(\n  redcap_uri   = keyring::key_get(\"DB_URI\"),  # This is the address for projects at the AU-server\n  token        = keyring::key_get(\"API_KEY\")\n)$data |> \n  colnames()\n\nHere is an example on how to export data on RBANS and cleaning the data for plotting.\n\nds <- redcap_read(\n  redcap_uri   = keyring::key_get(\"DB_URI\"),  # This is the address for projects at the AU-server\n  token        = keyring::key_get(\"API_KEY\"),\n  records      = c(1:35), # Downloading data from ID 1 to 35.\n  forms        = \"rbans\", # Downloading only the RBANS instrument\n  event        = c(\"3_months_arm_1\", # Specifying only to download 3 and 12 months data\n                   \"12_months_arm_1\")\n  )$data |> \n  select( # Selecting variables to keep\n    c(\"record_id\",\n      \"redcap_event_name\",\n      ends_with(c(\"_is\",\"_lo\",\"_up\",\"_per\"))) # I only want index scores, lower and upper CIs and percentile.\n         )   |> \n  na.omit() # Omitting IDs with missing data.\nhead(ds, n = 5) # Showing only the first 5 rows\n\nFurther examples and scripts can be found in the ENIGMA code repository.\n\n\n2.0.2 All at once\n\n\n2.0.3 The middle ground\n\n\n\n\nBeasley, Will. 2022. REDCapR: Interaction Between r and REDCap. https://CRAN.R-project.org/package=REDCapR.\n\n\nHanna, Richard, Stephan Kadauke, and Ezra Porter. 2022. REDCapTidieR: Extract REDCap Databases into Tidy ’Tibble’s. https://CRAN.R-project.org/package=REDCapTidieR."
   },
   {
-    "objectID": "databases.html#upload-data-to-the-project",
-    "href": "databases.html#upload-data-to-the-project",
-    "title": "2  Building a REDCap database",
-    "section": "2.3 Upload data to the project",
-    "text": "2.3 Upload data to the project\n\nREDCapR::redcap_read_oneshot(redcap_uri = keyring::key_get(\"DB_URI\"),\n                             token = keyring::key_get(\"example_api\"))\n\n\nREDCapR::redcap_write(ds_to_write = df,\n                      redcap_uri = keyring::key_get(\"DB_URI\"),\n                      token = keyring::key_get(\"example_api\"))"
+    "objectID": "database.html",
+    "href": "database.html",
+    "title": "Building databases",
+    "section": "",
+    "text": "In the following chapters I will go through different approaches to building databases."
   },
   {
-    "objectID": "databases.html#coming-up",
-    "href": "databases.html#coming-up",
-    "title": "2  Building a REDCap database",
-    "section": "2.4 Coming up",
-    "text": "2.4 Coming up\n\nRewrite of chapter to a more generel use case\nTips for branching and calculations\nmore…"
+    "objectID": "dataset.html#upload-data-to-the-project",
+    "href": "dataset.html#upload-data-to-the-project",
+    "title": "3  Database from dataset",
+    "section": "3.1 Upload data to the project",
+    "text": "3.1 Upload data to the project\n\nREDCapR::redcap_write(ds_to_write = dd,\n                      redcap_uri = keyring::key_get(\"DB_URI\"),\n                      token = keyring::key_get(\"example_api\"))"
   },
   {
-    "objectID": "advanced.html#downloading-data",
-    "href": "advanced.html#downloading-data",
-    "title": "3  REDCap database and more advanced functions",
-    "section": "3.1 Downloading data",
-    "text": "3.1 Downloading data"
+    "objectID": "scratch.html#upload-data-to-the-project",
+    "href": "scratch.html#upload-data-to-the-project",
+    "title": "4  Database from scratch",
+    "section": "4.1 Upload data to the project",
+    "text": "4.1 Upload data to the project\n\nREDCapR::redcap_read_oneshot(redcap_uri = keyring::key_get(\"DB_URI\"),\n                             token = keyring::key_get(\"example_api\"))\n\n\nREDCapR::redcap_write(ds_to_write = df,\n                      redcap_uri = keyring::key_get(\"DB_URI\"),\n                      token = keyring::key_get(\"example_api\"))"
+  },
+  {
+    "objectID": "scratch.html#coming-up",
+    "href": "scratch.html#coming-up",
+    "title": "4  Database from scratch",
+    "section": "4.2 Coming up",
+    "text": "4.2 Coming up\n\nRewrite of chapter to a more generel use case\nTips for branching and calculations\nmore…"
+  },
+  {
+    "objectID": "advanced.html#section",
+    "href": "advanced.html#section",
+    "title": "5  Advanced functions",
+    "section": "5.1 ",
+    "text": "5.1"
   },
   {
     "objectID": "references.html",
     "href": "references.html",
     "title": "References",
     "section": "",
-    "text": "Beasley, Will. 2022. REDCapR: Interaction Between r and REDCap.\nhttps://CRAN.R-project.org/package=REDCapR.\n\n\nCsárdi, Gábor. 2022. Keyring: Access the System Credential Store\nfrom r. https://CRAN.R-project.org/package=keyring."
+    "text": "Beasley, Will. 2022. REDCapR: Interaction Between r and REDCap.\nhttps://CRAN.R-project.org/package=REDCapR.\n\n\nCsárdi, Gábor. 2022. Keyring: Access the System Credential Store\nfrom r. https://CRAN.R-project.org/package=keyring.\n\n\nHanna, Richard, Stephan Kadauke, and Ezra Porter. 2022.\nREDCapTidieR: Extract REDCap Databases into Tidy ’Tibble’s. https://CRAN.R-project.org/package=REDCapTidieR."
   },
   {
     "objectID": "appendix.html",

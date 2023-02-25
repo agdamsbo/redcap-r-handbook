@@ -6,6 +6,14 @@ The book is written out of necessity as documentation for new undergraduate stud
 
 The goal is to write a handbook for new researchers working with REDCap and R and to have a reference for more experienced users. The book will be heavy on examples and suggestions to best practice.
 
+A comprehensive overview of tools for working with REDCap databases can be found here: [REDCap-tools repository](https://redcap-tools.github.io/projects/).
+
+## A niche? {#sec-a-niche .unnumbered}
+
+In my work with REDCap, in building databases and working with data, I have been very happy working in *R*. This helps to ensure reproducible work and gives better overview, when working with larger databases, or when using a dataset or variable description as the foundation for the database. The last is most often the case.
+
+There are many guidelines for working with the graphical interface, but I've not been able to find much guidance for working through the REDCap API in R. This book tries to fill that niche.
+
 ## Contribute {#sec-contribute .unnumbered}
 
 This book is open source and shared under a GPL-3 license. Contributions are very welcome. Please write the author, comment or create a PR on GitHub.

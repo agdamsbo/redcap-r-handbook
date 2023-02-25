@@ -2,26 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://agdamsbo.github.io/redcap-r-handbook/index.html</loc>
-    <lastmod>2023-01-24T11:08:29.128Z</lastmod>
+    <lastmod>2023-02-25T18:38:08.969Z</lastmod>
   </url>
   <url>
     <loc>https://agdamsbo.github.io/redcap-r-handbook/access.html</loc>
-    <lastmod>2023-01-24T11:08:29.129Z</lastmod>
+    <lastmod>2023-02-25T18:38:08.970Z</lastmod>
   </url>
   <url>
-    <loc>https://agdamsbo.github.io/redcap-r-handbook/databases.html</loc>
-    <lastmod>2023-01-24T11:08:29.130Z</lastmod>
+    <loc>https://agdamsbo.github.io/redcap-r-handbook/datahandling.html</loc>
+    <lastmod>2023-02-25T18:38:08.970Z</lastmod>
+  </url>
+  <url>
+    <loc>https://agdamsbo.github.io/redcap-r-handbook/acquisition.html</loc>
+    <lastmod>2023-02-25T18:38:08.970Z</lastmod>
+  </url>
+  <url>
+    <loc>https://agdamsbo.github.io/redcap-r-handbook/database.html</loc>
+    <lastmod>2023-02-25T18:38:08.971Z</lastmod>
+  </url>
+  <url>
+    <loc>https://agdamsbo.github.io/redcap-r-handbook/dataset.html</loc>
+    <lastmod>2023-02-25T18:38:08.971Z</lastmod>
+  </url>
+  <url>
+    <loc>https://agdamsbo.github.io/redcap-r-handbook/scratch.html</loc>
+    <lastmod>2023-02-25T18:38:08.973Z</lastmod>
   </url>
   <url>
     <loc>https://agdamsbo.github.io/redcap-r-handbook/advanced.html</loc>
-    <lastmod>2023-01-24T11:08:29.130Z</lastmod>
+    <lastmod>2023-02-25T18:38:08.973Z</lastmod>
   </url>
   <url>
     <loc>https://agdamsbo.github.io/redcap-r-handbook/references.html</loc>
-    <lastmod>2023-01-24T11:08:29.131Z</lastmod>
+    <lastmod>2023-02-25T18:38:08.973Z</lastmod>
   </url>
   <url>
     <loc>https://agdamsbo.github.io/redcap-r-handbook/appendix.html</loc>
-    <lastmod>2023-01-24T11:08:29.131Z</lastmod>
+    <lastmod>2023-02-25T18:38:08.973Z</lastmod>
   </url>
 </urlset>

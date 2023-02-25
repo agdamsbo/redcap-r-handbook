@@ -1,12 +1,4 @@
-# Building a REDCap database {#redcap-data}
-
-I will try to provide examples for two cases:
-
-## Creating a database {#redcap-scratch}
-
-Lessons learned...
-
-## Setting up a database from a dataset {#redcap-dataset}
+# Database from scratch {#scratch}
 
 Below will follow steps necessary to get a data base set up based on a data set provided.
 
@@ -41,7 +33,7 @@ write_ods(dd_draft,
 Have a look at the demonstration file below for inspiration.
 
 ```{r redcap-dd-example}
-(dd_demo <- read.csv("./redcap/REDCapDataDictonaryDemo.csv")) |> head() |> gt::gt()
+(dd_demo <- read.csv("https://raw.githubusercontent.com/agdamsbo/redcap-r-handbook/main/redcap/REDCapDataDictonaryDemo.csv")) |> head() |> gt::gt()
 ```
 
 Open the exported file "dd_draft.ods".

@@ -112,7 +112,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./databases.html" rel="next">
+<link href="./datahandling.html" rel="next">
 <link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -188,26 +188,66 @@ div.csl-indent {
   <a href="./access.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data access</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./datahandling.html" class="sidebar-item-text sidebar-link">Handling data from a database</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./databases.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Building a REDCap database</span></a>
+  <a href="./acquisition.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Downloading data</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./database.html" class="sidebar-item-text sidebar-link">Building databases</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./advanced.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">REDCap database and more advanced functions</span></a>
+  <a href="./dataset.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Database from dataset</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./scratch.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Database from scratch</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./advanced.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Advanced functions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./appendix.html" class="sidebar-item-text sidebar-link">Appendix</a>
   </div>
 </li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -218,7 +258,7 @@ div.csl-indent {
    
   <ul>
   <li><a href="#sec-getting-access" id="toc-sec-getting-access" class="nav-link active" data-scroll-target="#sec-getting-access"><span class="toc-section-number">1.1</span>  Getting access</a></li>
-  <li><a href="#sec-downloading-data" id="toc-sec-downloading-data" class="nav-link" data-scroll-target="#sec-downloading-data"><span class="toc-section-number">1.2</span>  Downloading data</a></li>
+  <li><a href="#sec-downloading-data" id="toc-sec-downloading-data" class="nav-link" data-scroll-target="#sec-downloading-data"><span class="toc-section-number">1.2</span>  </a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/agdamsbo/redcap-r-handbook/edit/main/access.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
     </div>
@@ -274,53 +314,7 @@ Warning
 <p>Do note, that the name “API_KEY” can be changed to whatever you prefer. Note that the function will overwrite any existing keys with the same name without any warning (!).</p>
 </section>
 <section id="sec-downloading-data" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="sec-downloading-data"><span class="header-section-number">1.2</span> Downloading data</h2>
-<p>There are different packages to access and download data from R. In the <a href="https://redcap-tools.github.io/projects/">REDCap-tools repository</a>, available tools and packages are referenced. Here I will provide an example, as to download minimal data in a focused way, using REDCapR.<span class="citation" data-cites="R-REDCapR">(<a href="references.html#ref-R-REDCapR" role="doc-biblioref">Beasley 2022</a>)</span>.</p>
-<p>Please have a look in the <a href="databases.html">REDCap-chapter</a> for an optimised approach when handling events and repeated instruments.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(REDCapR)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns the variables "record_id" and "age".</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ds_some_vars <span class="ot">&lt;-</span> <span class="fu">redcap_read</span>(</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">redcap_uri   =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"DB_URI"</span>),  <span class="co"># This is the address for projects at the AU-server</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">token        =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"API_KEY"</span>),</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">fields       =</span> <span class="fu">c</span>(<span class="st">"record_id"</span>, <span class="st">"age"</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>data </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Return only records with IDs of 1 and 4</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ds_some_rows <span class="ot">&lt;-</span> <span class="fu">redcap_read</span>(</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">redcap_uri   =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"DB_URI"</span>),  <span class="co"># This is the address for projects at the AU-server</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">token        =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"API_KEY"</span>),</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">records      =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>To get a full list of available variable names, you can either go through the codebook on REDCap, or you can try the following, but be aware, that the resulting vector of variable names can get a little long and confusing.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns a vector of names of all accessible variables.</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>variable_names <span class="ot">&lt;-</span> <span class="fu">redcap_read</span>(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">redcap_uri   =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"DB_URI"</span>),  <span class="co"># This is the address for projects at the AU-server</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">token        =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"API_KEY"</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>data <span class="sc">|&gt;</span> </span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Here is an example on how to export data on RBANS and cleaning the data for plotting.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">redcap_read</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">redcap_uri   =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"DB_URI"</span>),  <span class="co"># This is the address for projects at the AU-server</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">token        =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"API_KEY"</span>),</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">records      =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">35</span>), <span class="co"># Downloading data from ID 1 to 35.</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">forms        =</span> <span class="st">"rbans"</span>, <span class="co"># Downloading only the RBANS instrument</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">event        =</span> <span class="fu">c</span>(<span class="st">"3_months_arm_1"</span>, <span class="co"># Specifying only to download 3 and 12 months data</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"12_months_arm_1"</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">$</span>data <span class="sc">|&gt;</span> </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>( <span class="co"># Selecting variables to keep</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"record_id"</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"redcap_event_name"</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ends_with</span>(<span class="fu">c</span>(<span class="st">"_is"</span>,<span class="st">"_lo"</span>,<span class="st">"_up"</span>,<span class="st">"_per"</span>))) <span class="co"># I only want index scores, lower and upper CIs and percentile.</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>         )   <span class="sc">|&gt;</span> </span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="co"># Omitting IDs with missing data.</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ds, <span class="at">n =</span> <span class="dv">5</span>) <span class="co"># Showing only the first 5 rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Further examples and scripts can be found in the <a href="https://github.com/agdamsbo/ENIGMAtrial_R">ENIGMA code repository</a>.</p>
+<h2 data-number="1.2" class="anchored" data-anchor-id="sec-downloading-data"><span class="header-section-number">1.2</span> </h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
@@ -474,8 +468,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./databases.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Building a REDCap database</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./datahandling.html" class="pagination-link">
+        <span class="nav-page-text">Handling data from a database</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

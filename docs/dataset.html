@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>REDCap R Handbook - 3&nbsp; Database from dataset</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./scratch.html" rel="next">
+<link href="./database.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Database from dataset</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">REDCap R Handbook</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/agdamsbo/redcap-r-handbook/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./access.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data access</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./datahandling.html" class="sidebar-item-text sidebar-link">Handling data from a database</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./acquisition.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Downloading data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./database.html" class="sidebar-item-text sidebar-link">Building databases</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./dataset.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Database from dataset</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./scratch.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Database from scratch</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./advanced.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Advanced functions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix.html" class="sidebar-item-text sidebar-link">Appendix</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#create-a-data-dictionary" id="toc-create-a-data-dictionary" class="nav-link active" data-scroll-target="#create-a-data-dictionary"><span class="toc-section-number">3.0.1</span>  Create a data dictionary</a></li>
+  <li><a href="#specify-variable-names-etc." id="toc-specify-variable-names-etc." class="nav-link" data-scroll-target="#specify-variable-names-etc."><span class="toc-section-number">3.0.2</span>  Specify variable names etc.</a></li>
+  <li><a href="#format-choices" id="toc-format-choices" class="nav-link" data-scroll-target="#format-choices"><span class="toc-section-number">3.0.3</span>  Format choices</a></li>
+  <li><a href="#upload-the-datadictionary" id="toc-upload-the-datadictionary" class="nav-link" data-scroll-target="#upload-the-datadictionary"><span class="toc-section-number">3.0.4</span>  Upload the DataDictionary</a></li>
+  <li><a href="#upload-data-to-the-project" id="toc-upload-data-to-the-project" class="nav-link" data-scroll-target="#upload-data-to-the-project"><span class="toc-section-number">3.1</span>  Upload data to the project</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/agdamsbo/redcap-r-handbook/edit/main/dataset.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="scratch" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Database from dataset</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>You might be in the situation, that you have a dataset in a file, that you want to move to REDCap. Here I will try to walk through the steps of creating a database from a given dataset.</p>
+<section id="create-a-data-dictionary" class="level3" data-number="3.0.1">
+<h3 data-number="3.0.1" class="anchored" data-anchor-id="create-a-data-dictionary"><span class="header-section-number">3.0.1</span> Create a data dictionary</h3>
+<p>Import the dataset</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: dplyr</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1          5.1         3.5          1.4         0.2  setosa
+2          4.9         3.0          1.4         0.2  setosa
+3          4.7         3.2          1.3         0.2  setosa
+4          4.6         3.1          1.5         0.2  setosa
+5          5.0         3.6          1.4         0.2  setosa
+6          5.4         3.9          1.7         0.4  setosa</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using rownames as index and reordering to put record_id first (for REDCap)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> iris <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">record_id=</span><span class="fu">rownames</span>(.)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(record_id,<span class="fu">everything</span>(.))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="specify-variable-names-etc." class="level3" data-number="3.0.2">
+<h3 data-number="3.0.2" class="anchored" data-anchor-id="specify-variable-names-etc."><span class="header-section-number">3.0.2</span> Specify variable names etc.</h3>
+<p>Have a look at the demonstration file below for inspiration.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(dd_demo <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://raw.githubusercontent.com/agdamsbo/redcap-r-handbook/main/redcap/REDCapDataDictonaryDemo.csv"</span>)) <span class="sc">|&gt;</span> <span class="fu">head</span>() <span class="sc">|&gt;</span> gt<span class="sc">::</span><span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div id="voxcutmwif" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+:where(#voxcutmwif) .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+:where(#voxcutmwif) .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#voxcutmwif) .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+:where(#voxcutmwif) .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+:where(#voxcutmwif) .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+:where(#voxcutmwif) .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#voxcutmwif) .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#voxcutmwif) .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+:where(#voxcutmwif) .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+:where(#voxcutmwif) .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+:where(#voxcutmwif) .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+:where(#voxcutmwif) .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+:where(#voxcutmwif) .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+:where(#voxcutmwif) .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+:where(#voxcutmwif) .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+:where(#voxcutmwif) .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+:where(#voxcutmwif) .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+:where(#voxcutmwif) .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#voxcutmwif) .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+:where(#voxcutmwif) .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+:where(#voxcutmwif) .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#voxcutmwif) .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+:where(#voxcutmwif) .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+:where(#voxcutmwif) .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#voxcutmwif) .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#voxcutmwif) .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+:where(#voxcutmwif) .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+:where(#voxcutmwif) .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#voxcutmwif) .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#voxcutmwif) .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#voxcutmwif) .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#voxcutmwif) .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#voxcutmwif) .gt_left {
+  text-align: left;
+}
+
+:where(#voxcutmwif) .gt_center {
+  text-align: center;
+}
+
+:where(#voxcutmwif) .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(#voxcutmwif) .gt_font_normal {
+  font-weight: normal;
+}
+
+:where(#voxcutmwif) .gt_font_bold {
+  font-weight: bold;
+}
+
+:where(#voxcutmwif) .gt_font_italic {
+  font-style: italic;
+}
+
+:where(#voxcutmwif) .gt_super {
+  font-size: 65%;
+}
+
+:where(#voxcutmwif) .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+:where(#voxcutmwif) .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+:where(#voxcutmwif) .gt_indent_1 {
+  text-indent: 5px;
+}
+
+:where(#voxcutmwif) .gt_indent_2 {
+  text-indent: 10px;
+}
+
+:where(#voxcutmwif) .gt_indent_3 {
+  text-indent: 15px;
+}
+
+:where(#voxcutmwif) .gt_indent_4 {
+  text-indent: 20px;
+}
+
+:where(#voxcutmwif) .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Variable...Field.Name">Variable...Field.Name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Form.Name">Form.Name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Section.Header">Section.Header</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Field.Type">Field.Type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Field.Label">Field.Label</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Choices..Calculations..OR.Slider.Labels">Choices..Calculations..OR.Slider.Labels</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Field.Note">Field.Note</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Text.Validation.Type.OR.Show.Slider.Number">Text.Validation.Type.OR.Show.Slider.Number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Text.Validation.Min">Text.Validation.Min</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Text.Validation.Max">Text.Validation.Max</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Identifier.">Identifier.</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Branching.Logic..Show.field.only.if....">Branching.Logic..Show.field.only.if....</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Required.Field.">Required.Field.</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Custom.Alignment">Custom.Alignment</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Question.Number..surveys.only.">Question.Number..surveys.only.</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Matrix.Group.Name">Matrix.Group.Name</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">study_id</td>
+<td headers="Form.Name" class="gt_row gt_left">demographics</td>
+<td headers="Section.Header" class="gt_row gt_left"></td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Field.Label" class="gt_row gt_left">Study ID</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Note" class="gt_row gt_left"></td>
+<td headers="Text.Validation.Type.OR.Show.Slider.Number" class="gt_row gt_left"></td>
+<td headers="Text.Validation.Min" class="gt_row gt_right">NA</td>
+<td headers="Text.Validation.Max" class="gt_row gt_right">NA</td>
+<td headers="Identifier." class="gt_row gt_left"></td>
+<td headers="Branching.Logic..Show.field.only.if...." class="gt_row gt_right"></td>
+<td headers="Required.Field." class="gt_row gt_right"></td>
+<td headers="Custom.Alignment" class="gt_row gt_center">NA</td>
+<td headers="Question.Number..surveys.only." class="gt_row gt_center">NA</td>
+<td headers="Matrix.Group.Name" class="gt_row gt_right"></td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">date_enrolled</td>
+<td headers="Form.Name" class="gt_row gt_left">demographics</td>
+<td headers="Section.Header" class="gt_row gt_left">Demographic Characteristics</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Field.Label" class="gt_row gt_left">Date subject signed consent</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Note" class="gt_row gt_left">YYYY-MM-DD</td>
+<td headers="Text.Validation.Type.OR.Show.Slider.Number" class="gt_row gt_left">date</td>
+<td headers="Text.Validation.Min" class="gt_row gt_right">NA</td>
+<td headers="Text.Validation.Max" class="gt_row gt_right">NA</td>
+<td headers="Identifier." class="gt_row gt_left"></td>
+<td headers="Branching.Logic..Show.field.only.if...." class="gt_row gt_right"></td>
+<td headers="Required.Field." class="gt_row gt_right"></td>
+<td headers="Custom.Alignment" class="gt_row gt_center">NA</td>
+<td headers="Question.Number..surveys.only." class="gt_row gt_center">NA</td>
+<td headers="Matrix.Group.Name" class="gt_row gt_right"></td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">first_name</td>
+<td headers="Form.Name" class="gt_row gt_left">demographics</td>
+<td headers="Section.Header" class="gt_row gt_left"></td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Field.Label" class="gt_row gt_left">First Name</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Note" class="gt_row gt_left"></td>
+<td headers="Text.Validation.Type.OR.Show.Slider.Number" class="gt_row gt_left"></td>
+<td headers="Text.Validation.Min" class="gt_row gt_right">NA</td>
+<td headers="Text.Validation.Max" class="gt_row gt_right">NA</td>
+<td headers="Identifier." class="gt_row gt_left">y</td>
+<td headers="Branching.Logic..Show.field.only.if...." class="gt_row gt_right"></td>
+<td headers="Required.Field." class="gt_row gt_right"></td>
+<td headers="Custom.Alignment" class="gt_row gt_center">NA</td>
+<td headers="Question.Number..surveys.only." class="gt_row gt_center">NA</td>
+<td headers="Matrix.Group.Name" class="gt_row gt_right"></td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">last_name</td>
+<td headers="Form.Name" class="gt_row gt_left">demographics</td>
+<td headers="Section.Header" class="gt_row gt_left"></td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Field.Label" class="gt_row gt_left">Last Name</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Note" class="gt_row gt_left"></td>
+<td headers="Text.Validation.Type.OR.Show.Slider.Number" class="gt_row gt_left"></td>
+<td headers="Text.Validation.Min" class="gt_row gt_right">NA</td>
+<td headers="Text.Validation.Max" class="gt_row gt_right">NA</td>
+<td headers="Identifier." class="gt_row gt_left">y</td>
+<td headers="Branching.Logic..Show.field.only.if...." class="gt_row gt_right"></td>
+<td headers="Required.Field." class="gt_row gt_right"></td>
+<td headers="Custom.Alignment" class="gt_row gt_center">NA</td>
+<td headers="Question.Number..surveys.only." class="gt_row gt_center">NA</td>
+<td headers="Matrix.Group.Name" class="gt_row gt_right"></td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">address</td>
+<td headers="Form.Name" class="gt_row gt_left">demographics</td>
+<td headers="Section.Header" class="gt_row gt_left">Contact Information</td>
+<td headers="Field.Type" class="gt_row gt_left">notes</td>
+<td headers="Field.Label" class="gt_row gt_left">Street, City, State, ZIP</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Note" class="gt_row gt_left"></td>
+<td headers="Text.Validation.Type.OR.Show.Slider.Number" class="gt_row gt_left"></td>
+<td headers="Text.Validation.Min" class="gt_row gt_right">NA</td>
+<td headers="Text.Validation.Max" class="gt_row gt_right">NA</td>
+<td headers="Identifier." class="gt_row gt_left">y</td>
+<td headers="Branching.Logic..Show.field.only.if...." class="gt_row gt_right"></td>
+<td headers="Required.Field." class="gt_row gt_right"></td>
+<td headers="Custom.Alignment" class="gt_row gt_center">NA</td>
+<td headers="Question.Number..surveys.only." class="gt_row gt_center">NA</td>
+<td headers="Matrix.Group.Name" class="gt_row gt_right"></td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">telephone_1</td>
+<td headers="Form.Name" class="gt_row gt_left">demographics</td>
+<td headers="Section.Header" class="gt_row gt_left"></td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Field.Label" class="gt_row gt_left">Phone number</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_right"></td>
+<td headers="Field.Note" class="gt_row gt_left">Include Area Code</td>
+<td headers="Text.Validation.Type.OR.Show.Slider.Number" class="gt_row gt_left">phone</td>
+<td headers="Text.Validation.Min" class="gt_row gt_right">NA</td>
+<td headers="Text.Validation.Max" class="gt_row gt_right">NA</td>
+<td headers="Identifier." class="gt_row gt_left">y</td>
+<td headers="Branching.Logic..Show.field.only.if...." class="gt_row gt_right"></td>
+<td headers="Required.Field." class="gt_row gt_right"></td>
+<td headers="Custom.Alignment" class="gt_row gt_center">NA</td>
+<td headers="Question.Number..surveys.only." class="gt_row gt_center">NA</td>
+<td headers="Matrix.Group.Name" class="gt_row gt_right"></td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="format-choices" class="level3" data-number="3.0.3">
+<h3 data-number="3.0.3" class="anchored" data-anchor-id="format-choices"><span class="header-section-number">3.0.3</span> Format choices</h3>
+<p>Note the different <em>Field.Type’s</em> used and <em>Choices..</em>. , called labels. Each label will have a raw value. This is performed with a small script.</p>
+<p>For radio buttons, I have written the different options to choose from. For variables with a score to choose from, I have written the scores, and these variables and only these variables are named something with “_score”. Variables with binary or other types of outcome, I have written the label.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># I enjoy thoughtful variable naming</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow =</span> <span class="fu">ncol</span>(ds),<span class="at">ncol=</span><span class="fu">ncol</span>(dd_demo)))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dd) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(dd_demo)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>Variable...Field.Name <span class="ot">&lt;-</span> <span class="fu">colnames</span>(ds)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   150 obs. of  6 variables:
+ $ record_id   : chr  "1" "2" "3" "4" ...
+ $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+ $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+ $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+ $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+ $ Species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>Field.Type <span class="ot">&lt;-</span> <span class="fu">case_when</span>(<span class="fu">sapply</span>(ds,<span class="st">"class"</span>) <span class="sc">==</span> <span class="st">"factor"</span> <span class="sc">~</span> <span class="st">"radio"</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>          <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"text"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(dd))){</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (dd<span class="sc">$</span>Field.Type[i] <span class="sc">==</span> <span class="st">"radio"</span>) {</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  dd<span class="sc">$</span>Choices..Calculations..OR.Slider.Labels[i] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">paste0</span>(<span class="fu">paste0</span>(<span class="fu">seq_along</span>(<span class="fu">levels</span>(ds[,i])),<span class="st">", "</span>,<span class="fu">levels</span>(ds[,i])),<span class="at">collapse =</span> <span class="st">" | "</span>))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>dd<span class="sc">$</span>Form.Name <span class="ot">&lt;-</span> <span class="st">"base"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Have a look at the results for now.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dd <span class="sc">|&gt;</span> gt<span class="sc">::</span><span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div id="rweimipwas" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+:where(#rweimipwas) .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+:where(#rweimipwas) .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#rweimipwas) .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+:where(#rweimipwas) .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+:where(#rweimipwas) .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+:where(#rweimipwas) .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#rweimipwas) .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#rweimipwas) .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+:where(#rweimipwas) .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+:where(#rweimipwas) .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+:where(#rweimipwas) .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+:where(#rweimipwas) .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+:where(#rweimipwas) .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+:where(#rweimipwas) .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+:where(#rweimipwas) .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+:where(#rweimipwas) .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+:where(#rweimipwas) .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+:where(#rweimipwas) .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#rweimipwas) .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+:where(#rweimipwas) .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+:where(#rweimipwas) .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#rweimipwas) .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+:where(#rweimipwas) .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+:where(#rweimipwas) .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#rweimipwas) .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#rweimipwas) .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+:where(#rweimipwas) .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+:where(#rweimipwas) .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#rweimipwas) .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#rweimipwas) .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#rweimipwas) .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#rweimipwas) .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#rweimipwas) .gt_left {
+  text-align: left;
+}
+
+:where(#rweimipwas) .gt_center {
+  text-align: center;
+}
+
+:where(#rweimipwas) .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(#rweimipwas) .gt_font_normal {
+  font-weight: normal;
+}
+
+:where(#rweimipwas) .gt_font_bold {
+  font-weight: bold;
+}
+
+:where(#rweimipwas) .gt_font_italic {
+  font-style: italic;
+}
+
+:where(#rweimipwas) .gt_super {
+  font-size: 65%;
+}
+
+:where(#rweimipwas) .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+:where(#rweimipwas) .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+:where(#rweimipwas) .gt_indent_1 {
+  text-indent: 5px;
+}
+
+:where(#rweimipwas) .gt_indent_2 {
+  text-indent: 10px;
+}
+
+:where(#rweimipwas) .gt_indent_3 {
+  text-indent: 15px;
+}
+
+:where(#rweimipwas) .gt_indent_4 {
+  text-indent: 20px;
+}
+
+:where(#rweimipwas) .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Variable...Field.Name">Variable...Field.Name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Form.Name">Form.Name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Section.Header">Section.Header</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Field.Type">Field.Type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Field.Label">Field.Label</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Choices..Calculations..OR.Slider.Labels">Choices..Calculations..OR.Slider.Labels</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Field.Note">Field.Note</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Text.Validation.Type.OR.Show.Slider.Number">Text.Validation.Type.OR.Show.Slider.Number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Text.Validation.Min">Text.Validation.Min</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Text.Validation.Max">Text.Validation.Max</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Identifier.">Identifier.</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Branching.Logic..Show.field.only.if....">Branching.Logic..Show.field.only.if....</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Required.Field.">Required.Field.</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Custom.Alignment">Custom.Alignment</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Question.Number..surveys.only.">Question.Number..surveys.only.</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Matrix.Group.Name">Matrix.Group.Name</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">record_id</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Section.Header" class="gt_row gt_center">NA</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Field.Label" class="gt_row gt_center">NA</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">NA</td>
+<td headers="Field.Note" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Type.OR.Show.Slider.Number" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Min" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Max" class="gt_row gt_center">NA</td>
+<td headers="Identifier." class="gt_row gt_center">NA</td>
+<td headers="Branching.Logic..Show.field.only.if...." class="gt_row gt_center">NA</td>
+<td headers="Required.Field." class="gt_row gt_center">NA</td>
+<td headers="Custom.Alignment" class="gt_row gt_center">NA</td>
+<td headers="Question.Number..surveys.only." class="gt_row gt_center">NA</td>
+<td headers="Matrix.Group.Name" class="gt_row gt_center">NA</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">Sepal.Length</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Section.Header" class="gt_row gt_center">NA</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Field.Label" class="gt_row gt_center">NA</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">NA</td>
+<td headers="Field.Note" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Type.OR.Show.Slider.Number" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Min" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Max" class="gt_row gt_center">NA</td>
+<td headers="Identifier." class="gt_row gt_center">NA</td>
+<td headers="Branching.Logic..Show.field.only.if...." class="gt_row gt_center">NA</td>
+<td headers="Required.Field." class="gt_row gt_center">NA</td>
+<td headers="Custom.Alignment" class="gt_row gt_center">NA</td>
+<td headers="Question.Number..surveys.only." class="gt_row gt_center">NA</td>
+<td headers="Matrix.Group.Name" class="gt_row gt_center">NA</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">Sepal.Width</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Section.Header" class="gt_row gt_center">NA</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Field.Label" class="gt_row gt_center">NA</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">NA</td>
+<td headers="Field.Note" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Type.OR.Show.Slider.Number" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Min" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Max" class="gt_row gt_center">NA</td>
+<td headers="Identifier." class="gt_row gt_center">NA</td>
+<td headers="Branching.Logic..Show.field.only.if...." class="gt_row gt_center">NA</td>
+<td headers="Required.Field." class="gt_row gt_center">NA</td>
+<td headers="Custom.Alignment" class="gt_row gt_center">NA</td>
+<td headers="Question.Number..surveys.only." class="gt_row gt_center">NA</td>
+<td headers="Matrix.Group.Name" class="gt_row gt_center">NA</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">Petal.Length</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Section.Header" class="gt_row gt_center">NA</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Field.Label" class="gt_row gt_center">NA</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">NA</td>
+<td headers="Field.Note" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Type.OR.Show.Slider.Number" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Min" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Max" class="gt_row gt_center">NA</td>
+<td headers="Identifier." class="gt_row gt_center">NA</td>
+<td headers="Branching.Logic..Show.field.only.if...." class="gt_row gt_center">NA</td>
+<td headers="Required.Field." class="gt_row gt_center">NA</td>
+<td headers="Custom.Alignment" class="gt_row gt_center">NA</td>
+<td headers="Question.Number..surveys.only." class="gt_row gt_center">NA</td>
+<td headers="Matrix.Group.Name" class="gt_row gt_center">NA</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">Petal.Width</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Section.Header" class="gt_row gt_center">NA</td>
+<td headers="Field.Type" class="gt_row gt_left">text</td>
+<td headers="Field.Label" class="gt_row gt_center">NA</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">NA</td>
+<td headers="Field.Note" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Type.OR.Show.Slider.Number" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Min" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Max" class="gt_row gt_center">NA</td>
+<td headers="Identifier." class="gt_row gt_center">NA</td>
+<td headers="Branching.Logic..Show.field.only.if...." class="gt_row gt_center">NA</td>
+<td headers="Required.Field." class="gt_row gt_center">NA</td>
+<td headers="Custom.Alignment" class="gt_row gt_center">NA</td>
+<td headers="Question.Number..surveys.only." class="gt_row gt_center">NA</td>
+<td headers="Matrix.Group.Name" class="gt_row gt_center">NA</td></tr>
+    <tr><td headers="Variable...Field.Name" class="gt_row gt_left">Species</td>
+<td headers="Form.Name" class="gt_row gt_left">base</td>
+<td headers="Section.Header" class="gt_row gt_center">NA</td>
+<td headers="Field.Type" class="gt_row gt_left">radio</td>
+<td headers="Field.Label" class="gt_row gt_center">NA</td>
+<td headers="Choices..Calculations..OR.Slider.Labels" class="gt_row gt_left">1, setosa | 2, versicolor | 3, virginica</td>
+<td headers="Field.Note" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Type.OR.Show.Slider.Number" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Min" class="gt_row gt_center">NA</td>
+<td headers="Text.Validation.Max" class="gt_row gt_center">NA</td>
+<td headers="Identifier." class="gt_row gt_center">NA</td>
+<td headers="Branching.Logic..Show.field.only.if...." class="gt_row gt_center">NA</td>
+<td headers="Required.Field." class="gt_row gt_center">NA</td>
+<td headers="Custom.Alignment" class="gt_row gt_center">NA</td>
+<td headers="Question.Number..surveys.only." class="gt_row gt_center">NA</td>
+<td headers="Matrix.Group.Name" class="gt_row gt_center">NA</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="upload-the-datadictionary" class="level3" data-number="3.0.4">
+<h3 data-number="3.0.4" class="anchored" data-anchor-id="upload-the-datadictionary"><span class="header-section-number">3.0.4</span> Upload the DataDictionary</h3>
+<p>The DataDictionary can be uploaded using the API or manually via the REDCap webpage. Here I’ll show the first option:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>REDCapR<span class="sc">::</span><span class="fu">redcap_metadata_write</span>(dd_upload,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">redcap_uri =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"DB_URI"</span>),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">token =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"example_api"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="upload-data-to-the-project" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="upload-data-to-the-project"><span class="header-section-number">3.1</span> Upload data to the project</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>REDCapR<span class="sc">::</span><span class="fu">redcap_write</span>(<span class="at">ds_to_write =</span> dd,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">redcap_uri =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"DB_URI"</span>),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">token =</span> keyring<span class="sc">::</span><span class="fu">key_get</span>(<span class="st">"example_api"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./database.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Building databases</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./scratch.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Database from scratch</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

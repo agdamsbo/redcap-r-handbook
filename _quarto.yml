@@ -13,8 +13,15 @@ book:
   chapters:
     - index.qmd
     - access.qmd
-    - databases.qmd
-    - advanced.qmd
+    - part: datahandling.qmd
+      chapters:
+        - acquisition.qmd
+    - part: database.qmd
+      chapters:
+        - dataset.qmd
+        - scratch.qmd
+        - advanced.qmd
+  appendices:
     - references.qmd
     - appendix.qmd
 

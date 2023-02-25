@@ -1,0 +1,74 @@
+# Database from dataset {#scratch}
+
+You might be in the situation, that you have a dataset in a file, that you want to move to REDCap. Here I will try to walk through the steps of creating a database from a given dataset.
+
+### Create a data dictionary
+
+Import the dataset
+
+```{r dataset-dd-1}
+require(dplyr)
+data(iris)
+head(iris)
+
+# Using rownames as index and reordering to put record_id first (for REDCap)
+ds <- iris %>% mutate(record_id=rownames(.)) %>% select(record_id,everything(.))
+```
+
+### Specify variable names etc.
+
+Have a look at the demonstration file below for inspiration.
+
+```{r dataset-dd-demo}
+(dd_demo <- read.csv("https://raw.githubusercontent.com/agdamsbo/redcap-r-handbook/main/redcap/REDCapDataDictonaryDemo.csv")) |> head() |> gt::gt()
+```
+
+### Format choices
+
+Note the different *Field.Type's* used and *Choices..*. , called labels. Each label will have a raw value. This is performed with a small script.
+
+For radio buttons, I have written the different options to choose from. For variables with a score to choose from, I have written the scores, and these variables and only these variables are named something with "\_score". Variables with binary or other types of outcome, I have written the label.
+
+```{r dataset-choices-bin}
+# I enjoy thoughtful variable naming
+dd <- data.frame(matrix(nrow = ncol(ds),ncol=ncol(dd_demo)))
+colnames(dd) <- colnames(dd_demo)
+
+dd$Variable...Field.Name <- colnames(ds)
+
+str(ds)
+dd$Field.Type <- case_when(sapply(ds,"class") == "factor" ~ "radio",
+          TRUE ~ "text")
+
+for (i in seq_len(nrow(dd))){
+if (dd$Field.Type[i] == "radio") {
+  dd$Choices..Calculations..OR.Slider.Labels[i] <- paste0(paste0(paste0(seq_along(levels(ds[,i])),", ",levels(ds[,i])),collapse = " | "))
+  }
+}
+
+dd$Form.Name <- "base"
+```
+
+Have a look at the results for now.
+
+```{r}
+dd |> gt::gt()
+```
+
+### Upload the DataDictionary
+
+The DataDictionary can be uploaded using the API or manually via the REDCap webpage. Here I'll show the first option:
+
+```{r dataset-write, eval=FALSE}
+REDCapR::redcap_metadata_write(dd_upload,
+                               redcap_uri = keyring::key_get("DB_URI"),
+                               token = keyring::key_get("example_api"))
+```
+
+## Upload data to the project
+
+```{r eval=FALSE}
+REDCapR::redcap_write(ds_to_write = dd,
+                      redcap_uri = keyring::key_get("DB_URI"),
+                      token = keyring::key_get("example_api"))
+```
