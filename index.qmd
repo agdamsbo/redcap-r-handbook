@@ -1,3 +1,20 @@
+---
+author:
+  - name: Andreas Gammelgaard Damsbo
+    orcid: "0000-0002-7559-1154"
+    affiliations:
+      - name: "Danish Stroke Centre - Aarhus University Hospital"
+    url: "https://pure.au.dk/portal/da/persons/andreas-gammelgaard-damsbo(e3c4afce-3eba-4456-8b8b-2fd90775c87a).html"
+
+citation:
+  type: book
+  title: "REDCap R Handbook: A practical approach for the clinician"
+  container-title: "REDCap R Handbook: A practical approach for the clinician"
+  author: Andreas Gammelgaard Damsbo
+  url: https://agdamsbo.github.io/redcap-r-handbook/
+  edition: 0.1
+---
+
 # Preface {#sec-preface .unnumbered}
 
 This is a handbook on working with REDCap in R.
@@ -23,6 +40,6 @@ The book is written in Quarto in RStudio.
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'knitr', 'rmarkdown', 'REDCapR', 'tidyverse', 'stRoke', "REDCapRITS","keyring", "REDCapTidieR"
+  .packages(), 'knitr', 'rmarkdown', 'REDCapR', 'tidyverse', 'stRoke', "REDCapRITS","keyring", "REDCapTidieR", "REDCapCAST"
 ), 'packages.bib')
 ```

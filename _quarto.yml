@@ -5,7 +5,8 @@ project:
 book:
   title: "REDCap R Handbook"
   author: "Andreas Gammelgaard Damsbo"
-  date:  "01-16-2023"
+  date: today
+  status: "drafting"
   search: true
   repo-url: https://github.com/agdamsbo/redcap-r-handbook/
   repo-actions: [edit]
@@ -27,9 +28,9 @@ book:
 
 bibliography: [references.bib, packages.bib]
 
-format:
-  html:
-    theme: flatly
+theme:
+  light: cosmo
+  dark: superhero
 
 editor: visual
 

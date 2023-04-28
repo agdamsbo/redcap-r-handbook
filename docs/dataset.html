@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.3.340">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,9 +17,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -46,43 +47,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -100,10 +71,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -131,11 +104,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Database from dataset</span></h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./database.html">Building databases</a></li><li class="breadcrumb-item"><a href="./dataset.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Database from dataset</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -143,88 +121,100 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">REDCap R Handbook</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/agdamsbo/redcap-r-handbook/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/agdamsbo/redcap-r-handbook/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./access.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data access</span></a>
+  <a href="./access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data access</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./datahandling.html" class="sidebar-item-text sidebar-link">Handling data from a database</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a href="./datahandling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Handling data from a database</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./acquisition.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Downloading data</span></a>
+  <a href="./acquisition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Downloading data</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./database.html" class="sidebar-item-text sidebar-link">Building databases</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a href="./database.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Building databases</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./dataset.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Database from dataset</span></a>
+  <a href="./dataset.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Database from dataset</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./scratch.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Database from scratch</span></a>
+  <a href="./scratch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Database from scratch</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./advanced.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Advanced functions</span></a>
+  <a href="./advanced.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Advanced functions</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Appendices</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./appendix.html" class="sidebar-item-text sidebar-link">Appendix</a>
+  <a href="./appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Appendix</span></a>
   </div>
 </li>
       </ul>
@@ -232,17 +222,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#create-a-data-dictionary" id="toc-create-a-data-dictionary" class="nav-link active" data-scroll-target="#create-a-data-dictionary"><span class="toc-section-number">3.0.1</span>  Create a data dictionary</a></li>
-  <li><a href="#specify-variable-names-etc." id="toc-specify-variable-names-etc." class="nav-link" data-scroll-target="#specify-variable-names-etc."><span class="toc-section-number">3.0.2</span>  Specify variable names etc.</a></li>
-  <li><a href="#format-choices" id="toc-format-choices" class="nav-link" data-scroll-target="#format-choices"><span class="toc-section-number">3.0.3</span>  Format choices</a></li>
-  <li><a href="#upload-the-datadictionary" id="toc-upload-the-datadictionary" class="nav-link" data-scroll-target="#upload-the-datadictionary"><span class="toc-section-number">3.0.4</span>  Upload the DataDictionary</a></li>
-  <li><a href="#upload-data-to-the-project" id="toc-upload-data-to-the-project" class="nav-link" data-scroll-target="#upload-data-to-the-project"><span class="toc-section-number">3.1</span>  Upload data to the project</a></li>
+  <li><a href="#create-a-data-dictionary" id="toc-create-a-data-dictionary" class="nav-link active" data-scroll-target="#create-a-data-dictionary"><span class="header-section-number">3.0.1</span> Create a data dictionary</a></li>
+  <li><a href="#specify-variable-names-etc." id="toc-specify-variable-names-etc." class="nav-link" data-scroll-target="#specify-variable-names-etc."><span class="header-section-number">3.0.2</span> Specify variable names etc.</a></li>
+  <li><a href="#format-choices" id="toc-format-choices" class="nav-link" data-scroll-target="#format-choices"><span class="header-section-number">3.0.3</span> Format choices</a></li>
+  <li><a href="#upload-the-datadictionary" id="toc-upload-the-datadictionary" class="nav-link" data-scroll-target="#upload-the-datadictionary"><span class="header-section-number">3.0.4</span> Upload the DataDictionary</a></li>
+  <li><a href="#upload-data-to-the-project" id="toc-upload-data-to-the-project" class="nav-link" data-scroll-target="#upload-data-to-the-project"><span class="header-section-number">3.1</span> Upload data to the project</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/agdamsbo/redcap-r-handbook/edit/main/dataset.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
     </div>
@@ -251,7 +242,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="scratch" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Database from dataset</span></span></h1>
+<h1 class="title"><span id="scratch" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Database from dataset</span></span></h1>
 </div>
 
 
@@ -311,14 +302,26 @@ Attaching package: 'dplyr'</code></pre>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(dd_demo <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://raw.githubusercontent.com/agdamsbo/redcap-r-handbook/main/redcap/REDCapDataDictonaryDemo.csv"</span>)) <span class="sc">|&gt;</span> <span class="fu">head</span>() <span class="sc">|&gt;</span> gt<span class="sc">::</span><span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div id="voxcutmwif" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<div id="ulphshydij" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ulphshydij table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-:where(#voxcutmwif) .gt_table {
+#ulphshydij thead, #ulphshydij tbody, #ulphshydij tfoot, #ulphshydij tr, #ulphshydij td, #ulphshydij th {
+  border-style: none;
+}
+
+#ulphshydij p {
+  margin: 0;
+  padding: 0;
+}
+
+#ulphshydij .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
@@ -341,24 +344,12 @@ Attaching package: 'dplyr'</code></pre>
   border-left-color: #D3D3D3;
 }
 
-:where(#voxcutmwif) .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-:where(#voxcutmwif) .gt_caption {
+#ulphshydij .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#voxcutmwif) .gt_title {
+#ulphshydij .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -370,25 +361,37 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-width: 0;
 }
 
-:where(#voxcutmwif) .gt_subtitle {
+#ulphshydij .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-:where(#voxcutmwif) .gt_bottom_border {
+#ulphshydij .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ulphshydij .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#voxcutmwif) .gt_col_headings {
+#ulphshydij .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -403,7 +406,7 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-:where(#voxcutmwif) .gt_col_heading {
+#ulphshydij .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -423,7 +426,7 @@ Attaching package: 'dplyr'</code></pre>
   overflow-x: hidden;
 }
 
-:where(#voxcutmwif) .gt_column_spanner_outer {
+#ulphshydij .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -435,15 +438,15 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 4px;
 }
 
-:where(#voxcutmwif) .gt_column_spanner_outer:first-child {
+#ulphshydij .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#voxcutmwif) .gt_column_spanner_outer:last-child {
+#ulphshydij .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#voxcutmwif) .gt_column_spanner {
+#ulphshydij .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -455,7 +458,11 @@ Attaching package: 'dplyr'</code></pre>
   width: 100%;
 }
 
-:where(#voxcutmwif) .gt_group_heading {
+#ulphshydij .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#ulphshydij .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -481,7 +488,7 @@ Attaching package: 'dplyr'</code></pre>
   text-align: left;
 }
 
-:where(#voxcutmwif) .gt_empty_group_heading {
+#ulphshydij .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -496,15 +503,15 @@ Attaching package: 'dplyr'</code></pre>
   vertical-align: middle;
 }
 
-:where(#voxcutmwif) .gt_from_md > :first-child {
+#ulphshydij .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#voxcutmwif) .gt_from_md > :last-child {
+#ulphshydij .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#voxcutmwif) .gt_row {
+#ulphshydij .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -523,7 +530,7 @@ Attaching package: 'dplyr'</code></pre>
   overflow-x: hidden;
 }
 
-:where(#voxcutmwif) .gt_stub {
+#ulphshydij .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -536,7 +543,7 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-:where(#voxcutmwif) .gt_stub_row_group {
+#ulphshydij .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -550,11 +557,15 @@ Attaching package: 'dplyr'</code></pre>
   vertical-align: top;
 }
 
-:where(#voxcutmwif) .gt_row_group_first td {
+#ulphshydij .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#voxcutmwif) .gt_summary_row {
+#ulphshydij .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#ulphshydij .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -564,16 +575,16 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-:where(#voxcutmwif) .gt_first_summary_row {
+#ulphshydij .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#voxcutmwif) .gt_first_summary_row.thick {
+#ulphshydij .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#voxcutmwif) .gt_last_summary_row {
+#ulphshydij .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -583,7 +594,7 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-:where(#voxcutmwif) .gt_grand_summary_row {
+#ulphshydij .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -593,7 +604,7 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-:where(#voxcutmwif) .gt_first_grand_summary_row {
+#ulphshydij .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -603,11 +614,21 @@ Attaching package: 'dplyr'</code></pre>
   border-top-color: #D3D3D3;
 }
 
-:where(#voxcutmwif) .gt_striped {
+#ulphshydij .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ulphshydij .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#voxcutmwif) .gt_table_body {
+#ulphshydij .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -616,7 +637,7 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-:where(#voxcutmwif) .gt_footnotes {
+#ulphshydij .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -630,30 +651,8 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-:where(#voxcutmwif) .gt_footnote {
+#ulphshydij .gt_footnote {
   margin: 0px;
-  font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-:where(#voxcutmwif) .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-:where(#voxcutmwif) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -661,71 +660,92 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-:where(#voxcutmwif) .gt_left {
+#ulphshydij .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ulphshydij .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ulphshydij .gt_left {
   text-align: left;
 }
 
-:where(#voxcutmwif) .gt_center {
+#ulphshydij .gt_center {
   text-align: center;
 }
 
-:where(#voxcutmwif) .gt_right {
+#ulphshydij .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#voxcutmwif) .gt_font_normal {
+#ulphshydij .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#voxcutmwif) .gt_font_bold {
+#ulphshydij .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#voxcutmwif) .gt_font_italic {
+#ulphshydij .gt_font_italic {
   font-style: italic;
 }
 
-:where(#voxcutmwif) .gt_super {
+#ulphshydij .gt_super {
   font-size: 65%;
 }
 
-:where(#voxcutmwif) .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
+#ulphshydij .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
-:where(#voxcutmwif) .gt_asterisk {
+#ulphshydij .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#voxcutmwif) .gt_indent_1 {
+#ulphshydij .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#voxcutmwif) .gt_indent_2 {
+#ulphshydij .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#voxcutmwif) .gt_indent_3 {
+#ulphshydij .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#voxcutmwif) .gt_indent_4 {
+#ulphshydij .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#voxcutmwif) .gt_indent_5 {
+#ulphshydij .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table">
-  
-  <thead class="gt_col_headings">
-    <tr>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Variable...Field.Name">Variable...Field.Name</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Form.Name">Form.Name</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Section.Header">Section.Header</th>
@@ -886,14 +906,26 @@ Attaching package: 'dplyr'</code></pre>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dd <span class="sc">|&gt;</span> gt<span class="sc">::</span><span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div id="rweimipwas" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<div id="eiiqkfosji" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#eiiqkfosji table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-:where(#rweimipwas) .gt_table {
+#eiiqkfosji thead, #eiiqkfosji tbody, #eiiqkfosji tfoot, #eiiqkfosji tr, #eiiqkfosji td, #eiiqkfosji th {
+  border-style: none;
+}
+
+#eiiqkfosji p {
+  margin: 0;
+  padding: 0;
+}
+
+#eiiqkfosji .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
@@ -916,24 +948,12 @@ Attaching package: 'dplyr'</code></pre>
   border-left-color: #D3D3D3;
 }
 
-:where(#rweimipwas) .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-:where(#rweimipwas) .gt_caption {
+#eiiqkfosji .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#rweimipwas) .gt_title {
+#eiiqkfosji .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -945,25 +965,37 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-width: 0;
 }
 
-:where(#rweimipwas) .gt_subtitle {
+#eiiqkfosji .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-:where(#rweimipwas) .gt_bottom_border {
+#eiiqkfosji .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#eiiqkfosji .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#rweimipwas) .gt_col_headings {
+#eiiqkfosji .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -978,7 +1010,7 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-:where(#rweimipwas) .gt_col_heading {
+#eiiqkfosji .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -998,7 +1030,7 @@ Attaching package: 'dplyr'</code></pre>
   overflow-x: hidden;
 }
 
-:where(#rweimipwas) .gt_column_spanner_outer {
+#eiiqkfosji .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1010,15 +1042,15 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 4px;
 }
 
-:where(#rweimipwas) .gt_column_spanner_outer:first-child {
+#eiiqkfosji .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#rweimipwas) .gt_column_spanner_outer:last-child {
+#eiiqkfosji .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#rweimipwas) .gt_column_spanner {
+#eiiqkfosji .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1030,7 +1062,11 @@ Attaching package: 'dplyr'</code></pre>
   width: 100%;
 }
 
-:where(#rweimipwas) .gt_group_heading {
+#eiiqkfosji .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#eiiqkfosji .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1056,7 +1092,7 @@ Attaching package: 'dplyr'</code></pre>
   text-align: left;
 }
 
-:where(#rweimipwas) .gt_empty_group_heading {
+#eiiqkfosji .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1071,15 +1107,15 @@ Attaching package: 'dplyr'</code></pre>
   vertical-align: middle;
 }
 
-:where(#rweimipwas) .gt_from_md > :first-child {
+#eiiqkfosji .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#rweimipwas) .gt_from_md > :last-child {
+#eiiqkfosji .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#rweimipwas) .gt_row {
+#eiiqkfosji .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1098,7 +1134,7 @@ Attaching package: 'dplyr'</code></pre>
   overflow-x: hidden;
 }
 
-:where(#rweimipwas) .gt_stub {
+#eiiqkfosji .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1111,7 +1147,7 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-:where(#rweimipwas) .gt_stub_row_group {
+#eiiqkfosji .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1125,11 +1161,15 @@ Attaching package: 'dplyr'</code></pre>
   vertical-align: top;
 }
 
-:where(#rweimipwas) .gt_row_group_first td {
+#eiiqkfosji .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#rweimipwas) .gt_summary_row {
+#eiiqkfosji .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#eiiqkfosji .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1139,16 +1179,16 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-:where(#rweimipwas) .gt_first_summary_row {
+#eiiqkfosji .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#rweimipwas) .gt_first_summary_row.thick {
+#eiiqkfosji .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#rweimipwas) .gt_last_summary_row {
+#eiiqkfosji .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1158,7 +1198,7 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-:where(#rweimipwas) .gt_grand_summary_row {
+#eiiqkfosji .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1168,7 +1208,7 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-:where(#rweimipwas) .gt_first_grand_summary_row {
+#eiiqkfosji .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1178,11 +1218,21 @@ Attaching package: 'dplyr'</code></pre>
   border-top-color: #D3D3D3;
 }
 
-:where(#rweimipwas) .gt_striped {
+#eiiqkfosji .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#eiiqkfosji .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#rweimipwas) .gt_table_body {
+#eiiqkfosji .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1191,7 +1241,7 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-:where(#rweimipwas) .gt_footnotes {
+#eiiqkfosji .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1205,30 +1255,8 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-:where(#rweimipwas) .gt_footnote {
+#eiiqkfosji .gt_footnote {
   margin: 0px;
-  font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-:where(#rweimipwas) .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-:where(#rweimipwas) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1236,71 +1264,92 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-:where(#rweimipwas) .gt_left {
+#eiiqkfosji .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#eiiqkfosji .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#eiiqkfosji .gt_left {
   text-align: left;
 }
 
-:where(#rweimipwas) .gt_center {
+#eiiqkfosji .gt_center {
   text-align: center;
 }
 
-:where(#rweimipwas) .gt_right {
+#eiiqkfosji .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#rweimipwas) .gt_font_normal {
+#eiiqkfosji .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#rweimipwas) .gt_font_bold {
+#eiiqkfosji .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#rweimipwas) .gt_font_italic {
+#eiiqkfosji .gt_font_italic {
   font-style: italic;
 }
 
-:where(#rweimipwas) .gt_super {
+#eiiqkfosji .gt_super {
   font-size: 65%;
 }
 
-:where(#rweimipwas) .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
+#eiiqkfosji .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
-:where(#rweimipwas) .gt_asterisk {
+#eiiqkfosji .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#rweimipwas) .gt_indent_1 {
+#eiiqkfosji .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#rweimipwas) .gt_indent_2 {
+#eiiqkfosji .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#rweimipwas) .gt_indent_3 {
+#eiiqkfosji .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#rweimipwas) .gt_indent_4 {
+#eiiqkfosji .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#rweimipwas) .gt_indent_5 {
+#eiiqkfosji .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table">
-  
-  <thead class="gt_col_headings">
-    <tr>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Variable...Field.Name">Variable...Field.Name</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Form.Name">Form.Name</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Section.Header">Section.Header</th>
@@ -1465,6 +1514,121 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -1472,9 +1636,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1539,6 +1717,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
