@@ -5,7 +5,7 @@ book:
   title: "REDCap R Handbook"
   author: "Andreas Gammelgaard Damsbo"
   favicon: "/images/favicon.png"
-  date: today
+  date: last-modified
   status: "drafting"
   search: true
   repo-url: https://github.com/agdamsbo/redcap-r-handbook/
