@@ -33,19 +33,6 @@ Instead of storing the API-key in your R-script or in a text-file on your comput
 
 Below will follow an easy-to-use implementation with secure API key storage and data retrieval.
 
-The `library(keyring)`[@R-keyring] offers a safe and easy way to store API keys and other secrets. Please copy and run the code below:
-
-```{r api-storage, eval=FALSE}
-require(keyring)
-key_set("API_KEY", prompt = "API key: ")
-```
-
-```{r uri-storage, eval=FALSE}
-key_set("DB_URI", prompt = "Data base uri: ")
-```
-
-Do note, that the name "API_KEY" can be changed to whatever you prefer. Note that the function will overwrite any existing keys with the same name without any warning (!).
-
 ##  {#sec-downloading-data}
 
 To make everything as easy as possible, I suggest the following code example to retrieve your data set. If you run it for the first time, you will be prompted to insert your API-key.
