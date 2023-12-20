@@ -308,26 +308,31 @@ Warning
 <p>To be clear: <strong>NEVER STORE THE API-KEY AS PLAIN TEXT.</strong></p>
 </div>
 </div>
-<p>Instead of storing the API-key in your R-script or in a text-file on your computer, the <code>keyring</code>-package can be used to store your API key in your operating systems secure keychain.<span class="citation" data-cites="R-keyring">(<a href="references.html#ref-R-keyring" role="doc-biblioref"><strong>R-keyring?</strong></a>)</span></p>
+<p>Instead of storing the API-key in your R-script or in a text-file on your computer, the <code>keyring</code>-package can be used to store your API key in your operating systems secure keychain.<span class="citation" data-cites="R-keyring">(<a href="references.html#ref-R-keyring" role="doc-biblioref">Csárdi 2023</a>)</span></p>
 <p>Below will follow an easy-to-use implementation with secure API key storage and data retrieval.</p>
-<p>The <code>library(keyring)</code><span class="citation" data-cites="R-keyring">(<a href="references.html#ref-R-keyring" role="doc-biblioref"><strong>R-keyring?</strong></a>)</span> offers a safe and easy way to store API keys and other secrets. Please copy and run the code below:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(keyring)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">key_set</span>(<span class="st">"API_KEY"</span>, <span class="at">prompt =</span> <span class="st">"API key: "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">key_set</span>(<span class="st">"DB_URI"</span>, <span class="at">prompt =</span> <span class="st">"Data base uri: "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Do note, that the name “API_KEY” can be changed to whatever you prefer. Note that the function will overwrite any existing keys with the same name without any warning (!).</p>
 </section>
 <section id="sec-downloading-data" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="sec-downloading-data"><span class="header-section-number">2.2</span> </h2>
-<p>To make everything as easy as possible, I suggest the following code example to</p>
+<p>To make everything as easy as possible, I suggest the following code example to retrieve your data set. If you run it for the first time, you will be prompted to insert your API-key.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>REDCapCAST<span class="sc">::</span><span class="fu">easy_redcap</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">project.name =</span> <span class="st">"YOUR PROJECT NAME"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">uri =</span> <span class="st">"https://redcap.au.dk/api/"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fields =</span> <span class="fu">c</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># record_id benyttes alene som index</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"record_id"</span>, </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Alder og køn</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"age"</span>, <span class="st">"kon"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-R-REDCapR" class="csl-entry" role="listitem">
 Beasley, Will. 2022. <em>REDCapR: Interaction Between r and REDCap</em>. <a href="https://ouhscbbmc.github.io/REDCapR/">https://ouhscbbmc.github.io/REDCapR/</a>.
+</div>
+<div id="ref-R-keyring" class="csl-entry" role="listitem">
+Csárdi, Gábor. 2023. <em>Keyring: Access the System Credential Store from r</em>. <a href="https://keyring.r-lib.org/">https://keyring.r-lib.org/</a>.
 </div>
 <div id="ref-R-REDCapCAST" class="csl-entry" role="listitem">
 Damsbo, Andreas Gammelgaard, and Paul Egeler. 2023. <em>REDCapCAST: REDCap Castellated Data Handling</em>. <a href="https://github.com/agdamsbo/REDCapCAST">https://github.com/agdamsbo/REDCapCAST</a>.

@@ -20,7 +20,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -228,11 +247,16 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p>Working with data analysis in the research group, and in general it is highly advisable to keep data at a secure server (like <a href="redcap.rm.dk">REDCap</a>) and only working on temporary data on your machine only saving outcome and aggregated tables if necessary.</p>
-<p>I have collected some experience building databases in REDCap.<span class="citation" data-cites="harrisREDCapConsortiumBuilding2019">(<a href="references.html#ref-harrisREDCapConsortiumBuilding2019" role="doc-biblioref"><strong>harrisREDCapConsortiumBuilding2019?</strong></a>)</span> Genereally, it is a very effective tool, that is relatively easy to learn and use. There is a lot of material available online, that I will try and link to (and have no intentions competing with that), but here I will try to collect some tips and tricks for collecting data in an efficient way and in a Danish setting.</p>
+<p>I have collected some experience building databases in REDCap.<span class="citation" data-cites="harris2019">(<a href="references.html#ref-harris2019" role="doc-biblioref">Harris et al. 2019</a>)</span> Genereally, it is a very effective tool, that is relatively easy to learn and use. There is a lot of material available online, that I will try and link to (and have no intentions competing with that), but here I will try to collect some tips and tricks for collecting data in an efficient way and in a Danish setting.</p>
 <section id="section" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="section"><span class="header-section-number">5.1</span> </h2>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-harris2019" class="csl-entry" role="listitem">
+Harris, Paul A., Robert Taylor, Brenda L. Minor, Veida Elliott, Michelle Fernandez, Lindsay O’Neal, Laura McLeod, et al. 2019. <span>“The REDCap Consortium: Building an International Community of Software Platform Partners.”</span> <em>Journal of Biomedical Informatics</em> 95 (July): 103208. <a href="https://doi.org/10.1016/j.jbi.2019.103208">https://doi.org/10.1016/j.jbi.2019.103208</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
