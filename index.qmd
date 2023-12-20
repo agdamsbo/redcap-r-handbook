@@ -12,16 +12,16 @@ citation:
   container-title: "REDCap R Handbook: A practical approach for the clinician"
   author: Andreas Gammelgaard Damsbo
   url: https://agdamsbo.github.io/redcap-r-handbook/
-  edition: 0.1
+  edition: 2023.12.1
 ---
 
 # Preface {#sec-preface .unnumbered}
 
-This is a handbook on working with REDCap in R.
+This is a handbook on working with REDCap in *R*.
 
-The book is written out of necessity as documentation for new undergraduate students to work in R with study data stored in a REDCap data base. From this have evolved the desire to share experiences on building and managing databases in REDCap with R.
+The book is written out of necessity as documentation for new undergraduate students to work in *R* with study data stored in a REDCap data base. From this have evolved the desire to share experiences on building and managing databases in REDCap with *R*.
 
-The goal is to write a handbook for new researchers working with REDCap and R and to have a reference for more experienced users. The book will be heavy on examples and suggestions to best practice.
+The goal is to write a handbook for new researchers working with REDCap and *R* and to have a reference for more experienced users. The book will be heavy on examples and suggestions to best practice.
 
 A comprehensive overview of tools for working with REDCap databases can be found here: [REDCap-tools repository](https://redcap-tools.github.io/projects/).
 
@@ -29,17 +29,18 @@ A comprehensive overview of tools for working with REDCap databases can be found
 
 In my work with REDCap, in building databases and working with data, I have been very happy working in *R*. This helps to ensure reproducible work and gives better overview, when working with larger databases, or when using a dataset or variable description as the foundation for the database. The last is most often the case.
 
-There are many guidelines for working with the graphical interface, but I've not been able to find much guidance for working through the REDCap API in R. This book tries to fill that niche.
+There are many guidelines for working with the graphical interface, but I've not been able to find much guidance for working through the REDCap API in *R*. This book tries to fill that niche.
 
 ## Contribute {#sec-contribute .unnumbered}
 
-This book is open source and shared under a GPL-3 license. Contributions are very welcome. Please write the author, comment or create a PR on GitHub.
+This book is open source and shared under the [CC-BY-4.0 license](LICENSE.html). Contributions are very welcome. Please write the author, comment or create a PR on GitHub.
 
-The book is written in Quarto in RStudio.
+The book is written and build with Quarto in RStudio.
 
-```{r include=FALSE}
+```{r packages-bib}
+#| echo: false
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'knitr', 'rmarkdown', 'REDCapR', 'tidyverse', 'stRoke', "REDCapRITS","keyring", "REDCapTidieR", "REDCapCAST"
+  .packages(), 'knitr', 'rmarkdown', 'REDCapR', 'tidyverse', 'stRoke', "keyring", "REDCapTidieR", "REDCapCAST"
 ), 'packages.bib')
 ```

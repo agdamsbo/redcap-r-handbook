@@ -1,1 +1,0 @@
-Sitemap: https://agdamsbo.github.io/redcap-r-handbook/sitemap.xml

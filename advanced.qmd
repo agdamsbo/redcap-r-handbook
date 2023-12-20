@@ -1,7 +1,0 @@
-# Advanced functions {#sec-dvanced-functions}
-
-Working with data analysis in the research group, and in general it is highly advisable to keep data at a secure server (like [REDCap](redcap.rm.dk)) and only working on temporary data on your machine only saving outcome and aggregated tables if necessary.
-
-I have collected some experience building databases in REDCap.[@harrisREDCapConsortiumBuilding2019] Genereally, it is a very effective tool, that is relatively easy to learn and use. There is a lot of material available online, that I will try and link to (and have no intentions competing with that), but here I will try to collect some tips and tricks for collecting data in an efficient way and in a Danish setting.
-
-## 

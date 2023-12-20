@@ -1,10 +1,10 @@
 project:
   type: book
-  output-dir: docs
 
 book:
   title: "REDCap R Handbook"
   author: "Andreas Gammelgaard Damsbo"
+  favicon: "/images/favicon.png"
   date: today
   status: "drafting"
   search: true
@@ -13,24 +13,34 @@ book:
   site-url: https://agdamsbo.github.io/redcap-r-handbook/
   chapters:
     - index.qmd
-    - access.qmd
-    - part: datahandling.qmd
+    - doc/access.qmd
+    - part: doc/datahandling.qmd
       chapters:
-        - acquisition.qmd
-    - part: database.qmd
+        - doc/acquisition.qmd
+    - part: doc/database.qmd
       chapters:
-        - dataset.qmd
-        - scratch.qmd
-        - advanced.qmd
+        - doc/dataset.qmd
+        - doc/scratch.qmd
+        - doc/advanced.qmd
   appendices:
-    - references.qmd
-    - appendix.qmd
+    - doc/references.qmd
+    - doc/appendix.qmd
+    - LICENSE.md
+  page-footer:
+    center:
+      - text: "License: CC BY 4.0 {{< fa brands creative-commons >}} {{< fa brands creative-commons-by >}}"
+        href: LICENSE.html
 
 bibliography: [references.bib, packages.bib]
+
+execute:
+  freeze: auto
 
 theme:
   light: cosmo
   dark: superhero
 
-editor: visual
-
+editor:
+  markdown:
+    wrap: 72
+    canonical: true

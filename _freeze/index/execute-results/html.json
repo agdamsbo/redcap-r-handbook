@@ -1,0 +1,16 @@
+{
+  "hash": "b102189f1687079573b2e9465b8c84ff",
+  "result": {
+    "markdown": "---\nauthor:\n  - name: Andreas Gammelgaard Damsbo\n    orcid: \"0000-0002-7559-1154\"\n    affiliations:\n      - name: \"Danish Stroke Centre - Aarhus University Hospital\"\n    url: \"https://pure.au.dk/portal/da/persons/andreas-gammelgaard-damsbo(e3c4afce-3eba-4456-8b8b-2fd90775c87a).html\"\n\ncitation:\n  type: book\n  title: \"REDCap R Handbook: A practical approach for the clinician\"\n  container-title: \"REDCap R Handbook: A practical approach for the clinician\"\n  author: Andreas Gammelgaard Damsbo\n  url: https://agdamsbo.github.io/redcap-r-handbook/\n  edition: 2023.12.1\n---\n\n\n# Preface {#sec-preface .unnumbered}\n\nThis is a handbook on working with REDCap in *R*.\n\nThe book is written out of necessity as documentation for new undergraduate students to work in *R* with study data stored in a REDCap data base. From this have evolved the desire to share experiences on building and managing databases in REDCap with *R*.\n\nThe goal is to write a handbook for new researchers working with REDCap and *R* and to have a reference for more experienced users. The book will be heavy on examples and suggestions to best practice.\n\nA comprehensive overview of tools for working with REDCap databases can be found here: [REDCap-tools repository](https://redcap-tools.github.io/projects/).\n\n## A niche? {#sec-a-niche .unnumbered}\n\nIn my work with REDCap, in building databases and working with data, I have been very happy working in *R*. This helps to ensure reproducible work and gives better overview, when working with larger databases, or when using a dataset or variable description as the foundation for the database. The last is most often the case.\n\nThere are many guidelines for working with the graphical interface, but I've not been able to find much guidance for working through the REDCap API in *R*. This book tries to fill that niche.\n\n## Contribute {#sec-contribute .unnumbered}\n\nThis book is open source and shared under the [CC-BY-4.0 license](LICENSE.html). Contributions are very welcome. Please write the author, comment or create a PR on GitHub.\n\nThe book is written and build with Quarto in RStudio.\n\n\n::: {.cell}\n\n:::\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

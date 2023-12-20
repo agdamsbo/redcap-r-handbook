@@ -1,0 +1,14 @@
+{
+  "hash": "642f1a66774110a9b405fa3a26ae0e41",
+  "result": {
+    "markdown": "# Appendix {#sec-a .unnumbered}\n\n# Session info\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsessionInfo()\n```\n\n::: {.cell-output .cell-output-stdout}\n```\nR version 4.3.1 (2023-06-16)\nPlatform: aarch64-apple-darwin20 (64-bit)\nRunning under: macOS Sonoma 14.1.2\n\nMatrix products: default\nBLAS:   /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRblas.0.dylib \nLAPACK: /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0\n\nlocale:\n[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8\n\ntime zone: Europe/Copenhagen\ntzcode source: internal\n\nattached base packages:\n[1] stats     graphics  grDevices datasets  utils     methods   base     \n\nloaded via a namespace (and not attached):\n [1] htmlwidgets_1.6.4 compiler_4.3.1    fastmap_1.1.1     cli_3.6.2        \n [5] htmltools_0.5.7   tools_4.3.1       rstudioapi_0.15.0 rmarkdown_2.25   \n [9] knitr_1.45        jsonlite_1.8.8    xfun_0.41         digest_0.6.33    \n[13] rlang_1.1.2       renv_1.0.3        evaluate_0.23    \n```\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

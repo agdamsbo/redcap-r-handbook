@@ -1,0 +1,64 @@
+---
+title: "Data access"
+---
+
+# Data access {#sec-data-access}
+
+```{r setup}
+#| include: false
+knitr::opts_knit$set(root.dir = here::here(""))
+```
+
+This section is intended as a "REDCap data manipulation 101" for pre-graduate students in the group and as an intro to getting RStudio set up for working with REDCap data in general.
+
+Working with data in general, a rule of thumb is to store as little sensitive data as possible directly on your computer. The old way, would be to get a spreadsheet and have that on your computer. We don't consider that safe or good practice any more. A better way is to store data on a secure server and only access the necessary data in the required timespan and then have the data deleted again. Any accumulated analysis results as figures and tables can of course be saved locally if they are correctly created.
+
+We use REDCap to store research data. There are a few R-packages, that lets us work with data from REDCap directly in R, to achieve the above goal of secure data handling. In this book, the interface between R and REDCap is based on the [`REDCapR-package`](https://ouhscbbmc.github.io/REDCapR/)[@R-REDCapR], but with extended functionality to handle the castlelated data of REDCap datasets when using longitudanl functionality and repeating events, through the [`REDCapCAST-package`](https://agdamsbo.github.io/REDCapCAST/).[@R-REDCapCAST]
+
+The `REDCapR-package` contains a lot of great functions, that is use-full in advanced use cases. In the following things have been simplified a little for the new user.
+
+A more thorough discussion on REDCap data can be found later as well as a chapter on tips to building a REDCap database.
+
+## Getting access {#sec-getting-access}
+
+Before you are able to get any data out of REDCap, make sure that you are able to get in to REDCap, meaning you've had a user created by the project administrator (your supervisor will know). To access the REDCap web interface, a username, password an done-time-token is used. To access through R, a so-called API-key is used, which is an alpha-numeric key used to verify yourself to the REDCap server, when requesting data export.
+
+::: callout-warning
+The API key equals user name and password, and circumvents the two-factor verification process. Naturally, the API key should be kept in a safe way.
+
+To be clear: **NEVER STORE THE API-KEY AS PLAIN TEXT.**
+:::
+
+Instead of storing the API-key in your R-script or in a text-file on your computer, the `keyring`-package can be used to store your API key in your operating systems secure keychain.[@R-keyring]
+
+Below will follow an easy-to-use implementation with secure API key storage and data retrieval.
+
+The `library(keyring)`[@R-keyring] offers a safe and easy way to store API keys and other secrets. Please copy and run the code below:
+
+```{r api-storage, eval=FALSE}
+require(keyring)
+key_set("API_KEY", prompt = "API key: ")
+```
+
+```{r uri-storage, eval=FALSE}
+key_set("DB_URI", prompt = "Data base uri: ")
+```
+
+Do note, that the name "API_KEY" can be changed to whatever you prefer. Note that the function will overwrite any existing keys with the same name without any warning (!).
+
+##  {#sec-downloading-data}
+
+To make everything as easy as possible, I suggest the following code example to retrieve your data set. If you run it for the first time, you will be prompted to insert your API-key.
+
+```{r}
+#| eval: false
+REDCapCAST::easy_redcap(
+  project.name = "YOUR PROJECT NAME",
+  uri = "https://redcap.au.dk/api/",
+  fields = c(
+    # record_id benyttes alene som index
+    "record_id", 
+    # Alder og køn
+    "age", "kon")
+)
+```

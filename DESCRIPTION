@@ -1,0 +1,25 @@
+Package: REDCap R Handbook
+Title: REDCap R Handbook: A practical approach for the clinician
+Version: 2023.12.1
+Authors@R: 
+    person("Andreas Gammelgaard", "Damsbo", , "agdamsbo@clin.au.dk", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-7559-1154"))
+Description: REDCap R Handbook: A practical approach for the clinician
+License: CC BY 4.0
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    gt,
+    here,
+    keyring,
+    readODS,
+    REDCapCAST,
+    REDCapR
+Suggests: 
+    pak,
+    REDCapTidieR,
+    rmarkdown,
+    stRoke,
+    tidyverse,
+    usethis
