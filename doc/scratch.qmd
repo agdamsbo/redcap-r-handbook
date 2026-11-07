@@ -1,12 +1,15 @@
 # Database from scratch {#scratch}
 
-Below will follow steps necessary to get a data base set up based on a data set provided.
+Below will follow steps necessary to get a data base set up based on a
+data set provided.
 
 ### Create a data dictionary
 
 Copy and run the following to create a DataDictionary draft.
 
-Change the `var_name` vector to the variable names of your own project and the same for `instrument`. Then export the DataDictionary draft and open the .ods file in a visual editor as LibreOffice.
+Change the `var_name` vector to the variable names of your own project
+and the same for `instrument`. Then export the DataDictionary draft and
+open the .ods file in a visual editor as LibreOffice.
 
 ```{r redcap-dd-1}
 require(readODS)
@@ -43,7 +46,8 @@ Open the exported file "dd_draft.ods".
 system2("open", "data/dd_draft.ods")
 ```
 
-Type or paste the needed information manually, save the file with a new name (I did "data/dd_draft_adds.ods") and load it again.
+Type or paste the needed information manually, save the file with a new
+name (I did "data/dd_draft_adds.ods") and load it again.
 
 ```{r redcap-dd-adds}
 (dd <- readODS::read_ods(here::here("data/dd_draft_adds.ods"), na = ""))|> gt::gt()
@@ -51,9 +55,16 @@ Type or paste the needed information manually, save the file with a new name (I 
 
 ### Format choices
 
-Note the different *Field.Type's* used and *Choices..*. , called labels. Each label will have a raw value. And for each of these I will also ad an "Unknown" with a artificial value of 99. This is performed with a small script.
+Note the different *Field.Type's* used and *Choices..*. , called labels.
+Each label will have a raw value. And for each of these I will also ad
+an "Unknown" with a artificial value of 99. This is performed with a
+small script.
 
-For radio buttons, I have written the different options to choose from. For variables with a score to choose from, I have written the scores, and these variables and only these variables are named something with "\_score". Variables with binary or other types of outcome, I have written the label.
+For radio buttons, I have written the different options to choose from.
+For variables with a score to choose from, I have written the scores,
+and these variables and only these variables are named something with
+"\_score". Variables with binary or other types of outcome, I have
+written the label.
 
 ```{r redcap-choices-bin}
 # I enjoy thoughtful variable naming
@@ -103,7 +114,8 @@ dd_upload |> gt::gt()
 
 ### Upload the DataDictionary
 
-The DataDictionary can be uploaded using the API or manually via the REDCap webpage. Here I'll show the first option:
+The DataDictionary can be uploaded using the API or manually via the
+REDCap webpage. Here I'll show the first option:
 
 ```{r redcap_dd-write, eval=FALSE}
 REDCapR::redcap_metadata_write(dd_upload,
@@ -126,6 +138,6 @@ REDCapR::redcap_write(ds_to_write = df,
 
 ## Coming up
 
--   Rewrite of chapter to a more general use case
--   Tips for branching and calculations
--   more...
+- Rewrite of chapter to a more general use case
+- Tips for branching and calculations
+- more...
